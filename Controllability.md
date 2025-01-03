@@ -32,6 +32,7 @@ $$\dot{x}(t) = (A-BK)x(t) + Br(t)$$
 
 ## 2. Controllability의 조건
 모든 시스템이 Controllability하진 않고, 주어진 상태 방정식
+
 $$
 \dot{x}(t) = (A - KB)x(t) + Br(t)
 $$
@@ -47,7 +48,9 @@ B & AB & A^2B & \cdots & A^{n-1}B
 $$
 
 ## 3. Controllability 예제
- 
+
+아래와 같이 상태방정식이 주어졌다고 가정하자.
+
 $$
 \dot{x}(t) = 
 \begin{bmatrix}
@@ -68,5 +71,18 @@ y(t) =
 1 & 2
 \end{bmatrix}
 x(t)
+$$
+
+그러면, 아래 제어 가능성 행렬은 invertible하므로, full rank이다.
+
+$$
+\begin{bmatrix}
+A & AB
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & -2 \\
+1 & -3
+\end{bmatrix}
 $$
 
