@@ -76,10 +76,7 @@ $$
 그러면, 아래 제어 가능성 행렬은 invertible하므로, full rank이다.
 
 $$
-\begin{bmatrix}
-A & AB
-\end{bmatrix}
-=
+[A AB] =
 \begin{bmatrix}
 1 & -2 \\
 1 & -3
