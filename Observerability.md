@@ -27,3 +27,24 @@ e(t) = x(t) - \hat{x}(t), \quad \dot{e}(t) = \dot{x}(t) - \dot{\hat{x}}(t) = (A 
 $$
 
 옵저버의 목표는 상태 추정 오차가 시간이 지남에 따라 0에 가까워 지도록 만들어, 실제 상태 변수 $x(t)$와 추정 상태 변수 $\hat{x}(t)$의 차이를 0으로 만드는 것이다. 이를 위해, Error Dynamics인 위 식에서, 행렬 $A-LC$의 eigenvalue가 복소 평면의 왼쪽 방평면(half-plane)에 위치 해야 한다. 이 때, 행렬 $A$와 벡터 $C$는 시스템에 의해 결정되기 때문에 결국, gain $L$을 적절하게 선택하는 문제로 정리된다.
+
+
+모든 시스템이 Observability하진 않고, 주어진 상태 방정식
+
+$$
+\dot{x}(t) = Ax(t) + Bu(t), \quad y(t) = Cx(t)
+$$
+
+가 관측 가능하기 위한 필요충분조건은, 크기 $n \times n$ 정방행렬 $A$와 $1 \times n$ 행 벡터 $C$에 대해 행렬이 full rank이다.
+
+$$
+\text{rank} 
+\begin{bmatrix}
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix}
+= n
+$$
