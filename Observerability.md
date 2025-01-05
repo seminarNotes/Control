@@ -52,3 +52,80 @@ CA^{n-1}
 \end{bmatrix}
 = n
 $$
+
+## 3. Observerability의 예제
+
+아래와 같이 상태 방정식이 주어졌다고 가정하자.
+
+$$
+A = \begin{bmatrix}
+0 & 1 \\
+0 & -1
+\end{bmatrix}, \quad
+b = \begin{bmatrix}
+0 \\
+1
+\end{bmatrix}, \quad
+c = \begin{bmatrix}
+1 & 0
+\end{bmatrix}
+$$
+
+그러면,
+
+$$
+\begin{bmatrix}
+C \\
+CA
+\end{bmatrix}
+= \begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+$$
+
+이기 때문에, invertible하고, full rank이다. 따라서, 주어진 시스템은 completely observerable(C.O.)하다.
+
+이제, 아래 특성 방정식과 일치하도록 옵저버를 디자인한다. 이 말은 옵저버 gain $L$을 조정하여 $A-LC$ 행렬의 고유값을 타겟 특정 방정식의 근으로 설명하여, 상태 오차가 원하는 속도로 소멸되는 것을 보장하도록 옵저버를 설계한다는 의미이다. 따라서, 추정 상태가 실제 상태를 추적하게 된다. 타겟 특성 방정식은 아래와 같다.
+
+$$
+s^2 + 2\sqrt{3}s + 6 = 0
+$$
+
+옵저버를 유도하기 위해 벡터 $L = (l_1, l_2)^T$를 가정한다.  그러면,
+
+$$
+A - Lc = \begin{bmatrix}
+0 & 1 \\
+0 & -1
+\end{bmatrix} - \begin{bmatrix}
+l_1 \\
+l_2
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}
+= \begin{bmatrix}
+-l_1 & 1 \\
+-l_2 & -1
+\end{bmatrix}
+$$
+
+이제 위 행렬의 특성 방정식을 계산하면,
+
+$$
+\text{det}(sI - (A - Lc)) =
+\text{det}(
+sI - \begin{bmatrix}
+-l_1 & 1 \\
+-l_2 & -1
+\end{bmatrix}
+) = \text{det} \begin{bmatrix}
+s + l_1 & -1 \\
+l_2 & s + 1
+\end{bmatrix}
+$$
+
+$$
+(s + l_1)(s + 1) + l_2 = s^2 + (l_1 + 1)s + (l_1 + l_2)
+$$
