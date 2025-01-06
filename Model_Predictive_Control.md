@@ -35,7 +35,7 @@ $$
 $$
 
 
-## 2. Model Predictive Control 변환
+## 2. Quadratic Program 변환
 
 아래에서는 주어진 MPC 문제를 LQ로 변환하는 과정을 정리하였다. 먼저 앞에서 소개한 MPC는 아래와 같은 최적 문제를 의미한다.
 
