@@ -43,10 +43,10 @@ $$
 \begin{align*}
 \min_{u_{t:t+N-1}} J & = \sum_{i=0}^{N-1} x_{t+i}^T Q x_{t+i} + u_{t+i}^T R u_{t+i} + x_{t+N}^T P x_{t+N} \\
 & \text{subject to } \\
-& x_{t+1} = Ax_{t} + Bu_{t} \\ 
-& x_{t} \text{ is given(current state)} \\
-& x_{min} \leq x_{t+i} \leq x_{max} \quad \text{for } 1 \leq i \leq N \\
-& u_{min} \leq u_{t+i} \leq u_{max} \quad \text{for } 0 \leq i \leq N-1
+\text{state equation}& x_{t+1} = Ax_{t} + Bu_{t} \\ 
+\text{current state}& x_{t} \text{ is given} \\
+\text{state constraints}& x_{min} \leq x_{t+i} \leq x_{max} \quad \text{for } 1 \leq i \leq N \\
+\text{input constraints}& u_{min} \leq u_{t+i} \leq u_{max} \quad \text{for } 0 \leq i \leq N-1
 \end{align*}
 $$
 
@@ -352,7 +352,7 @@ $$
 \begin{align*}
 \min_{U} J & = x_t^T Q x_t + x_{t+1:t+N}^T \bar{Q} x_{t+1:t+N} + u_{t:t+N-1}^T \bar{R} u_{t:t+N-1} \\
 & \text{subject to } \\
-& x_{t+1:t+N} = M x_{t} + SU \\
-& GU \leq W + T x_{t} \\
+\text{state equation}& x_{t+1:t+N} = M x_{t} + SU \\
+\text{constraints}& GU \leq W + T x_{t} \\
 \end{align*}
 $$
