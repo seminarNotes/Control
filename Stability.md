@@ -86,11 +86,15 @@ $$ P = \sum_{k \geq 0} (A^{T})^{k} Q A^{k}$$
 
 그러면, 아래를 만족한다.
 
-$$ A^{T}PA - A = \sum_{k \geq 1} (A^{T})^{k} Q A^{k} - \sum_{k \geq 0} (A^{T})^{k} Q A^{k} = - (A^{T})^{0} Q A^{0} = -Q < 0 $$
+$$
+A^{T}PA - A = \sum_{k \geq 1} (A^{T})^{k} Q A^{k} - \sum_{k \geq 0} (A^{T})^{k} Q A^{k} = - (A^{T})^{0} Q A^{0} = -Q < 0
+$$
 
 반대로, 적당한 positive definitive 행렬 $P > 0$가 존재해서 $A^{T}PA - P < 0$를 만족한다고 가정하자. 행렬 $A$가 Schur인 것을 보이기 위해 Lyapunov 함수 $V$를 아래와 같이 정의하고, 안정성 조건을 만족하는지 확인한다. 함수 $V(x) = x^{T} P x$라 가정하면, $V(x) > 0$가 nonzero에 대해 만족하고, $V(0) = 0$를 만족한다. 또한,
 
-$$ V(x_{k+1}) = x^{T}_{k+1} P x_{k+1} = x^{T}_{k} A^{T} P A x_{k} < x^{T}_{k} P x_{k} = V(x_{k}) $$
+$$
+V(x_{k+1}) = x_{k+1}^{T} P x_{k+1} = x_{k}^{T} A^{T} P A x_{k} < x_{k}^{T} P x_{k} = V(x_{k})
+$$
 
 이고, 함수 $V(x)$는 감소하므로, 대응하는 시스템은 안정적이며, 행렬 $A$는 Schur이다.
 
