@@ -2,8 +2,9 @@
 
 |번 호|제 목|내 용|
 |--|--|--|
-|1|[Controllability](https://github.com/seminarNotes/Control/blob/main/Controllability.md)|가제어성|
-|2|[Observerability](https://github.com/seminarNotes/Control/blob/main/Observerability.md)|가관측성|
+|1|[Stability]|(https://github.com/seminarNotes/Control/blob/main/Stability.md)|안정성|
+|2|[Controllability](https://github.com/seminarNotes/Control/blob/main/Controllability.md)|가제어성|
+|3|[Observerability](https://github.com/seminarNotes/Control/blob/main/Observerability.md)|가관측성|
 |X|[Model Predictive Control](https://github.com/seminarNotes/Control/blob/main/Model_Predictive_Control.md)|모델 예측 제어|
 
 
