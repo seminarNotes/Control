@@ -3,7 +3,7 @@
 |번 호|제 목|키워드|코 드|
 |--|--|--|--|
 |1|[Stability](https://github.com/seminarNotes/Control/blob/main/Stability.md)|점근적 수렴성, Hurwitz, Schur, LMI|None|
-|2|[Controllability](https://github.com/seminarNotes/Control/blob/main/Controllability.md)|가제어성|None|
+|2|[Feedback Control]([https://github.com/seminarNotes/Control/blob/main/Feedback_Control.md])|피드백 제어|None|
 |3|[Observerability](https://github.com/seminarNotes/Control/blob/main/Observerability.md)|가관측성|None|
 |X|[Model Predictive Control](https://github.com/seminarNotes/Control/blob/main/Model_Predictive_Control.md)|모델 예측 제어|None|
 
