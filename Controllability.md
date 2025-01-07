@@ -78,7 +78,7 @@ $$= W_{t} W_{t}^{-1} x_d = I x_d = x_d $$
 
 $$
 \begin{align*}
-||u||_{L2}^{2} & = \int_0^t u(s)^2 ds \\ 
+\Vert u \Vert_{L2}^{2} & = \int_0^t u(s)^2 ds \\ 
 & = \int_0^t x_d^T W_{T_f}^{-1} e^{A(T_f-s)} BB^T e^{A^T(T_f-s)} W_{T_f}^{-1} x_d ds \\
 & = x_d^T W_{T_f}^{-1} \left( \int_0^t e^{A(T_f-s)} BB^T e^{A^T(T_f-s)} ds \right) W_{T_f}^{-1} x_d \\
 & = x_d^T W_{T_f}^{-1} W_{T_f} W_{T_f}^{-1} x_d = x_d^T W_{T_f}^{-1} x_d
@@ -86,7 +86,7 @@ $$
 $$
 
 
-따라서, $||u||_{L2}^{2} = x^T W_{T_f}^{-1} x \leq 1$를 만족한다면, 상태변수 $x$는 시간 $t$ 내에 크기가 $1$ 이하인 입력변수 $u$에 의해 도달 가능하다는 것을 의미한다. 이러한 방법에 의해 정의된 입력변수 $u$는 사실상 최적(optimal)이다. 크기가 $1$인 입력을 이용하여 시간 $T$ 내 도달 가능한 상태들의 집합을 Minimum Energy Ellipsoid라 하고, 집합으로는 
+따라서, $\Vert u \Vert_{L2}^{2} = x^T W_{T_f}^{-1} x \leq 1$를 만족한다면, 상태변수 $x$는 시간 $t$ 내에 크기가 $1$ 이하인 입력변수 $u$에 의해 도달 가능하다는 것을 의미한다. 이러한 방법에 의해 정의된 입력변수 $u$는 사실상 최적(optimal)이다. 크기가 $1$인 입력을 이용하여 시간 $T$ 내 도달 가능한 상태들의 집합을 Minimum Energy Ellipsoid라 하고, 집합으로는 
 
 $$
 \{x \in R^{n} \,|\, x^{T}W_{T}^{-1}x \leq 1\}
