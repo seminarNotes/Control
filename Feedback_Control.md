@@ -1,13 +1,13 @@
-# Controllability
+# Feedback Control
 <p align="right">
 최초 작성일 : 2024-10-13 / 마지막 수정일 : 2025-01-03
 </p>
 
-## 1. Controllability의 의미
+## 1. Feedback Control의 의미
 
 시스템의 원하는 동작 혹은 상태를 보장하기 위해 입력을 조정할 수 있도로 제어기(controller)를 설계할 수 있고, Controllability는 이러한 Controller를 설계할 수 있는지에 대한 여부(가능성)을 평가하는 기준이자, 설계를 위한 필수 조건이다. 시스템이 완전히 제어 가능하다면, 적절한 제어기를 통해 시스템의 모든 상태를 원하는 대로 이동시키거나 안정화할 수 있지만, 제어 가능하지 않은 시스템에서는 특정 상태를 조작할 수 없으므로, 제어기의 설계가 제한되거나 불가능해질 수 있다.
 
-아래는 Controllaility와 Controller에 대한 간략한 개념을 정리하였다.
+아래는 Feedback Control에 대한 간략한 개념을 정리하였다.
 
 선형 시간불변 시스템(Linear Time Invariant System)은 아래 연립 미분방정식으로 주어진다.
 
@@ -34,8 +34,8 @@ $$\dot{x}(t) = (A-BK)x(t) + Br(t)$$
 
 따라서, 행렬 $A-BK$의 특정 방정식이 원하는 전달 함수 $G_{\text{goal}}(s)$의 분모와 동일하게 만드는 행렬 $K$를 찾는 것이 제어기 설계의 핵심이다. 원하는 전달 함수라는 것은 시스템 복잡도나 주어진 문제에 따라 다양하게 설정할 수 있으며, 예를 들어, PID 제어기는 간단한 시스템에서 주로 사용되며, LQR 제어기는 최적 제어 문제에 적합하다. MPC 제어기는 복잡한 제약 조건이 있는 시스템을 제어할 때 유리하다.
 
-## 2. Controllability의 조건
-모든 시스템이 Controllability하진 않고, 주어진 상태 방정식
+## 2. Feedback Control의 조건
+Feedback Control를 설계하기 위해선 제어 가능성(Controllability)가 전제 되어야 한다. 모든 시스템이 Controllability하진 않고, 주어진 상태 방정식
 
 $$
 \dot{x}(t) = (A - KB)x(t) + Br(t)
@@ -51,7 +51,7 @@ B & AB & A^2B & \cdots & A^{n-1}B
 = n
 $$
 
-## 3. Controllability 예제
+## 3. Feedback Control 예제
 
 아래와 같이 상태방정식이 주어졌다고 가정하자.
 
