@@ -82,8 +82,7 @@ $$
 \textit{if and only if} \quad & \text{Image }\Gamma_{t} = R^{n} \\
 \textit{if and only if} \quad & \text{Image }C(A,B) = R^{n} \\
 \textit{if and only if} \quad & \text{Image }(W_t) = R^{n} \\
-\textit{if and only if} \quad & \exist \text{ } W \text{ s.t. } AW + WA^{T} + BB^{T} = 0
-
+\textit{if and only if} \quad & \text{There exists } W \text{ s.t. } AW + WA^{T} + BB^{T} = 0
 \end{align*}
 $$
 
