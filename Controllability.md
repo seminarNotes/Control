@@ -22,7 +22,10 @@ $$ x_{T} = \Gamma_{T}(u(s)) = \int_{0}^{T} e^{A(T - s)} Bu(s) ds $$
 
 그러면, 적분 변환은 선형성을 만족하기 때문에 사상 $\Gamma_{T}$은 선형 변환이다. 선형 변환의 image는 벡터 부분 공간을 형성하기 때문에 이러한 벡터 공간을 주어진 시간 $t$에 대한 도달 가능한 상태들의 집합(set of reachable states for a fixed $t$) $R_{t}$라 한다.
 
-$$ R_{t} = \{ x(t) | x(t) = \int_{0}^{t} e^{A(t - s)} Bu(s) ds \text{ for some function } u(t)\} $$
+
+$$
+R_{t} = < x(t) | x(t) = \int_{0}^{t} e^{A(t - s)} Bu(s) ds \text{ for some function } u(t) >
+$$
 
 적분식 안에 있는 행렬 지수 함수 $e^{At}$은 행렬 $A$에 대해 정의된 지수 함수로, 다음과 같이 무한 급수로 표현된다.
 
@@ -135,7 +138,7 @@ $$
 이 조건은 입력 에너지가 $1$ 이하로 제한되었을 때, $x_{d}$에 도달할 수 있는 상태들을 정의한다. 이 상태들의 집합은 최소 에너지 타원체(Minimum Energy Ellipsoid)로 표현된다.
 
 $$
-\text{Ellipsoid} = \{x \in R^{n} \,|\, x^{T}W_{T}^{-1}x \leq 1\}
+\text{Ellipsoid} = <x \in R^{n} \,|\, x^{T}W_{T}^{-1}x \leq 1 >
 $$
 
 여기서, 집합을 Ellipsoid라 부르는 이유는 상태 벡터들이 이차 형식(quadratic form)의 부등식으로 조건이 되어 있기 때문에 이 영역은 타원형으로 표현되기 때문이다. 이 타원체의 모양은 controllable Grammain $W_{T}$에 의해 결정되는데, 타원체의 모양을 결정 짓는 축의 길이는 $W_{T}$의 $i$번째 eigenvalue의 제곱근 $\sqrt{\lambda_{i}(W_{T})}$에 의해 결정되고, 축의 방향은 대응하는 $i$번째 eigenvector의 방향에 의해 결정된다.
