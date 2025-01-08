@@ -219,9 +219,9 @@ x_desired - x_reached =
 
 또, 상태 변수가 수렴을 하는 과정에서의 상태 변수와 제어 입력의 궤적은 아래와 같이 표현된다.
 
-<img src="https://github.com/seminarNotes/Control/blob/main/image/Controllability_order2_state.jpg" alt="Controllability Order3 State" width="500">
+<img src="https://github.com/seminarNotes/Control/blob/main/Controllability/Controllability_order2_state.jpg" alt="Controllability Order3 State" width="500">
 
-<img src="https://github.com/seminarNotes/Control/blob/main/image/Controllability_order3_input.jpg" alt="Controllability Order3 Input" width="500">
+<img src="https://github.com/seminarNotes/Control/blob/main/Controllability/Controllability_order3_input.jpg" alt="Controllability Order3 Input" width="500">
 
 
 ## 5. Minimum Energy Ellipsoid
