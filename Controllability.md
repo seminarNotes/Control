@@ -198,7 +198,7 @@ simulation_controllability_gramian(A, B, C, D, x_initial, x_desired);
 
 사용한 상태 행렬들과 초기값, 목표값은 물리적 의미가 있는 것이 아닌 임의로 값을 사용했다. order == 3일 때, 실행한 후, 터미널에 출력된 결과는 아래와 같다. 타겟이 되는 상태 변수는 $x_{desired} = (3, 2, 0.4)$이고, 실제 controllability gramian $W_{t}$을 사용해 제어한 상태 변수는 $x_{reached} = (2.9006, 1.9823, 0.3197)$이며, 이 둘의 차이는 $(0.0994, 0.0177, 0.0803)$으로 상당히 높은 정확도로 수렴하였음을 확인할 수 있다.
     
-```
+```matlab
 >> run_simulation_controllaility_gramian
 
 x_desired = 
