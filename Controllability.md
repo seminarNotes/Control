@@ -180,39 +180,48 @@ end
 ```
 
 
-위 코드를 실행하는 실행부 파일은 아래와 같다. 사용한 상태 행렬들과 초기값, 목표값은 물리적 의미가 있는 것이 아닌 임의로 값을 사용하였다.
-
+위 코드를 실행하는 실행부 파일은 아래와 같다. 
 ```matlab
-order = 3;
+A = [0  1  0;
+     0  0  1;
+    -2 -3 -4];
 
-if order == 3
-    A = [0  1  0;
-         0  0  1;
-        -2 -3 -4];
+B = [0; 0; 1];
+C = [1 0 0];
+D = 0;
 
-    B = [0; 0; 1];
-    C = [1 0 0];
-    D = 0;
-
-    x_initial = [1; 0; 0];
-    x_desired = [3; 2; 0.4];
-
-elseif order == 2
-    A = [0  1;
-        -2 -3];
-    B = [0; 1];
-    C = [1 0];
-    D = 0;
-
-    x_initial = [1; 0];
-    x_desired = [2; 1];
-
-else
-    exit;
-end
+x_initial = [1; 0; 0];
+x_desired = [3; 2; 0.4];
 
 simulation_controllability_gramian(A, B, C, D, x_initial, x_desired);
 ```
+
+사용한 상태 행렬들과 초기값, 목표값은 물리적 의미가 있는 것이 아닌 임의로 값을 사용했다. order == 3일 때, 실행한 후, 터미널에 출력된 결과는 아래와 같다. 타겟이 되는 상태 변수는 $x_{desired} = (3, 2, 0.4)$이고, 실제 controllability gramian $W_{t}$을 사용해 제어한 상태 변수는 $x_{reached} = (2.9006, 1.9823, 0.3197)$이며, 이 둘의 차이는 $(0.0994, 0.0177, 0.0803)$으로 상당히 높은 정확도로 수렴하였음을 확인할 수 있다.
+    
+```
+>> run_simulation_controllaility_gramian
+
+x_desired = 
+    3.0000
+    2.0000
+    0.4000
+
+ x_reached = 
+    2.9006
+    1.9823
+    0.3197
+
+x_desired - x_reached = 
+    0.0994
+    0.0177
+    0.0803
+```
+
+또, 상태 변수가 수렴을 하는 과정에서의 상태 변수와 제어 입력의 궤적은 아래와 같이 표현된다.
+
+<img src="https://github.com/seminarNotes/Control/blob/main/image/Controllability_order2_state.jpg" alt="Controllability Order3 State" width="500">
+
+<img src="https://github.com/seminarNotes/Control/blob/main/image/Controllability_order3_input.jpg" alt="Controllability Order3 Input" width="500">
 
 
 ## 5. Minimum Energy Ellipsoid
