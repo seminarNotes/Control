@@ -105,82 +105,23 @@ $$
 
 ## 4. Numerical Implementation
 
-바로 위에서 finite-time controllability grammian $W_{t}$을 이용해서 우리가 원하는 생태(desired state) $x_d$가 되도록 입력 변수 $u$는 표현할 수 있다고 했다. 이 부분을 실제 matlab 코드를 이용해서 구현했다. 아래 함수는 시스템 상태 행렬과 상태 변수의 초기값과 목표 상태 변수를 입력 받아 gramian을 계산하고, 반복문을 통해 제어 입력 $u$와 상태 변수 $x$를 계산하여 결과를 출력 및 시각화한다. ODE solver로는 RK4를 사용했다.
+바로 위에서 finite-time controllability grammian $W_{t}$을 이용해서 우리가 원하는 생태(desired state) $x_d$가 되도록 입력 변수 $u$는 표현할 수 있다고 했다. 이 부분을 실제 matlab 코드를 이용해서 구현했다. 아래 함수는 시스템 상태 행렬과 상태 변수의 초기값과 목표 상태 변수를 입력 받아 gramian을 계산하였다. 이후, 반복문(for문)을 통해 제어 입력 $u$와 상태 변수 $x$를 시간 구간마다 계산하여, 배열에 추가하였다.
 
 ```matlab
+% 제어 가능 Grammian 계산
+Integrand = @(tau) expm(A * tau) * B * B' * expm(A' * tau); 
+W = @(t) integral(Integrand, 0, t, 'ArrayValued', true);
+W_final = W(T_final);
 
-function simulation_controllability_gramian(A, B, C, D, x_initial, x_desired)
-    % 초기 상태 및 목표 상태 설정
-    T_final = 80;
-    T_interval = 0.1;
-    t = 0:T_interval:T_final; 
-    sample_size = size(t, 2);
-
-    X(:, 1) = x_initial;
-
-    % 제어 가능 Grammian 계산
-    Integrand = @(tau) expm(A * tau) * B * B' * expm(A' * tau); 
-    W = @(t) integral(Integrand, 0, t, 'ArrayValued', true);
-    W_final = W(T_final);
-
-    % 상태와 입력 계산
-    for i = 1:sample_size - 1
-        U(i) = B' * expm(A' * (T_final - t(i))) * inv(W_final) * x_desired;
-        X(:, i + 1) = runge_kutta(A, X(:, i), B, U(i), T_interval);
-    end
-
-    % 입력과 상태 플롯
-    figure(1);
-    plot(t(1:end - 1), U);
-    grid on;
-    title('Input');
-    xlabel('Time step');
-    ylabel('u(t)');
-
-    figure(2);
-    plot(t, X);
-    grid on;
-    title('State');
-    xlabel('Time step');
-    ylabel('State values');
-    legend('x_1', 'x_2', 'x_3', 'x_4', 'x_5', 'x_6');
-    
-    %% 
-    % 목표 상태와 마지막 상태의 차이 계산 및 출력
-    diff = x_desired - X(:, end);
-
-    fprintf('x_desired = ');
-    fprintf('\n');
-    disp(x_desired);
-
-    fprintf(' x_reached = ');
-    fprintf('\n');
-    disp(X(:, end));
-    
-    fprintf('x_desired - x_reached = ');
-    fprintf('\n');
-    disp(diff);
-
+% 상태와 입력 계산
+for i = 1:sample_size - 1
+    U(i) = B' * expm(A' * (T_final - t(i))) * inv(W_final) * x_desired;
+    X(:, i + 1) = runge_kutta(A, X(:, i), B, U(i), T_interval);
 end
-
-% Runge-Kutta 4
-function result = runge_kutta(A, X, B, U, T)
-    k1 = state_equation(A, X, B, U) * T;
-    k2 = state_equation(A, X + k1 * 0.5, B, U) * T;
-    k3 = state_equation(A, X + k2 * 0.5, B, U) * T;
-    k4 = state_equation(A, X + k3, B, U) * T;
-    result = X + (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
-end
-
-% 시스템 동역학 함수
-function result = state_equation(A, x, B, u)
-    result = A * x + B * u;
-end
-
 ```
 
+마지막으로, 반복문이 완료되면, 배열에 추가된 데이터를 기반으로 결과를 출력 및 시각화하였다. 코드를 실행하는 실행부 파일과 입력값은 아래와 같다.
 
-위 코드를 실행하는 실행부 파일은 아래와 같다. 
 ```matlab
 A = [0  1  0;
      0  0  1;
@@ -252,4 +193,4 @@ $$
 \text{Ellipsoid} = ( x \in R^{n} | x^{T}W_{T}^{-1}x \leq 1 )
 $$
 
-여기서, 집합을 Ellipsoid라 부르는 이유는 상태 벡터들이 이차 형식(quadratic form)의 부등식으로 조건이 되어 있기 때문에 이 영역은 타원형으로 표현되기 때문이다. 이 타원체의 모양은 controllable Grammain $W_{T}$에 의해 결정되는데, 타원체의 모양을 결정 짓는 축의 길이는 $W_{T}$의 $i$번째 eigenvalue의 제곱근 $\sqrt{\lambda_{i}(W_{T})}$에 의해 결정되고, 축의 방향은 대응하는 $i$번째 eigenvector의 방향에 의해 결정된다.
+여기서, 집합을 Ellipsoid라 부르는 이유는 상태 벡터들이 이차 형식(quadratic form)의 부등식으로 조건이 되어 있기 때문에 이 영역은 타원형으로 표현되기 때문이다. 이 타원체의 모양은 controllable Gramian $W_{T}$에 의해 결정되는데, 타원체의 모양을 결정 짓는 축의 길이는 $W_{T}$의 $i$번째 eigenvalue의 제곱근 $\sqrt{\lambda_{i}(W_{T})}$에 의해 결정되고, 축의 방향은 대응하는 $i$번째 eigenvector의 방향에 의해 결정된다.
