@@ -153,7 +153,7 @@ $$
 
 와 같고, 이를 matlab에서는 아래와 같이 작성하였다.
 
-'''matlab
+```matlab
 % 시스템 상태 방정식
 function result = state_dynamics(A, x, B, u)
     result = A * x + B * u;
@@ -163,6 +163,47 @@ end
 function result = observer_dynamics(A, x, B, u, L, e)
     result = A * x + B * u + L * e;
 end
-'''
+```
 
+
+또한, 각각의 상태 방정식을 이용해 시간에 따라 상태 값을 업데이트 하기 위해 사용한 ODE solver는 RK4로 각각의 코드는 아래와 같다.
+
+```matlab
+% RK4로 상태 업데이트
+function result = rk4_state_update(A, X, B, U, T)
+    k1 = state_dynamics(A, X, B, U) * T;
+    k2 = state_dynamics(A, X + k1 * 0.5, B, U) * T;
+    k3 = state_dynamics(A, X + k2 * 0.5, B, U) * T;
+    k4 = state_dynamics(A, X + k3, B, U) * T;
+    result = X + (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
+end
+
+% RK4로 옵저버 상태 업데이트
+function result = rk4_observer_update(A, X, B, U, L, e, T)
+    k1 = observer_dynamics(A, X, B, U, L, e) * T;
+    k2 = observer_dynamics(A, X + k1 * 0.5, B, U, L, e) * T;
+    k3 = observer_dynamics(A, X + k2 * 0.5, B, U, L, e) * T;
+    k4 = observer_dynamics(A, X + k3, B, U, L, e) * T;
+    result = X + (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
+end
+
+```
+
+이제 아래 반복문(for문)을 통해 실제 상태 값과 옵저버 상태를 업데이트하고 이를 배열에 추가한다.
+
+``` matlab
+for idx = 1:sample_size - 1
+    U = sin(2 * pi * 0.001 * idx) + 0.25 * sin(2 * pi * 0.005 * idx);            
+    y(idx) = C * X(:, idx);                  
+    yhat(idx) = C * Xhat(:, idx);            
+    e(idx) = y(idx) - yhat(idx);             
+
+    % RK4 -> 상태 업데이트
+    X(:, idx + 1) = rk4_state_update(A, X(:, idx), B, U, T_interval);
+    Xhat(:, idx + 1) = rk4_observer_update(A, Xhat(:, idx), ...
+        B, U, L, e(idx), T_interval);
+
+    Ut = [Ut, U]; % 제어 입력 저장
+end
+```
 
