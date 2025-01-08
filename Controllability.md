@@ -86,7 +86,6 @@ $$
 \end{align*}
 $$
 
-
 이제 grammian을 이용해서 desired state $x_{d}$가 존재할 때, 대응하는 제어 입력 $u(t)$를 설계해본다. reachable을 설명할 때, 입력 변수 $u$와 상태 변수 $x$의 관계를 적분 변환 $\Gamma_{t}$을 통해 아래와 같이 표현했다.
 
 $$ x_{t} = \Gamma_{t}(u(s)) = \int_{0}^{t} e^{A(t - s)} Bu(s) ds $$
@@ -104,12 +103,116 @@ $$
 \end{align*}
 $$
 
-## 4. Python Implementation
+## 4. Numerical Implementation
 
-```python
-print(1)
+바로 위에서 finite-time controllability grammian $W_{t}$을 이용해서 우리가 원하는 생태(desired state) $x_d$가 되도록 입력 변수 $u$는 표현할 수 있다고 했다. 이 부분을 실제 matlab 코드를 이용해서 구현했다. 아래 함수는 시스템 상태 행렬과 상태 변수의 초기값과 목표 상태 변수를 입력 받아 gramian을 계산하고, 반복문을 통해 제어 입력 $u$와 상태 변수 $x$를 계산하여 결과를 출력 및 시각화한다. ODE solver로는 RK4를 사용했다.
+
+```matlab
+
+function simulation_controllability_gramian(A, B, C, D, x_initial, x_desired)
+    % 초기 상태 및 목표 상태 설정
+    T_final = 80;
+    T_interval = 0.1;
+    t = 0:T_interval:T_final; 
+    sample_size = size(t, 2);
+
+    X(:, 1) = x_initial;
+
+    % 제어 가능 Grammian 계산
+    Integrand = @(tau) expm(A * tau) * B * B' * expm(A' * tau); 
+    W = @(t) integral(Integrand, 0, t, 'ArrayValued', true);
+    W_final = W(T_final);
+
+    % 상태와 입력 계산
+    for i = 1:sample_size - 1
+        U(i) = B' * expm(A' * (T_final - t(i))) * inv(W_final) * x_desired;
+        X(:, i + 1) = runge_kutta(A, X(:, i), B, U(i), T_interval);
+    end
+
+    % 입력과 상태 플롯
+    figure(1);
+    plot(t(1:end - 1), U);
+    grid on;
+    title('Input');
+    xlabel('Time step');
+    ylabel('u(t)');
+
+    figure(2);
+    plot(t, X);
+    grid on;
+    title('State');
+    xlabel('Time step');
+    ylabel('State values');
+    legend('x_1', 'x_2', 'x_3', 'x_4', 'x_5', 'x_6');
+    
+    %% 
+    % 목표 상태와 마지막 상태의 차이 계산 및 출력
+    diff = x_desired - X(:, end);
+
+    fprintf('x_desired = ');
+    fprintf('\n');
+    disp(x_desired);
+
+    fprintf(' x_reached = ');
+    fprintf('\n');
+    disp(X(:, end));
+    
+    fprintf('x_desired - x_reached = ');
+    fprintf('\n');
+    disp(diff);
+
+end
+
+% Runge-Kutta 4
+function result = runge_kutta(A, X, B, U, T)
+    k1 = state_equation(A, X, B, U) * T;
+    k2 = state_equation(A, X + k1 * 0.5, B, U) * T;
+    k3 = state_equation(A, X + k2 * 0.5, B, U) * T;
+    k4 = state_equation(A, X + k3, B, U) * T;
+    result = X + (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
+end
+
+% 시스템 동역학 함수
+function result = state_equation(A, x, B, u)
+    result = A * x + B * u;
+end
+
 ```
 
+
+위 코드를 실행하는 실행부 파일은 아래와 같다. 사용한 상태 행렬들과 초기값, 목표값은 물리적 의미가 있는 것이 아닌 임의로 값을 사용하였다.
+
+```matlab
+order = 3;
+
+if order == 3
+    A = [0  1  0;
+         0  0  1;
+        -2 -3 -4];
+
+    B = [0; 0; 1];
+    C = [1 0 0];
+    D = 0;
+
+    x_initial = [1; 0; 0];
+    x_desired = [3; 2; 0.4];
+
+elseif order == 2
+    A = [0  1;
+        -2 -3];
+    B = [0; 1];
+    C = [1 0];
+    D = 0;
+
+    x_initial = [1; 0];
+    x_desired = [2; 1];
+
+else
+    exit;
+end
+
+simulation_controllability_gramian(A, B, C, D, x_initial, x_desired);
+```
 
 
 ## 5. Minimum Energy Ellipsoid
