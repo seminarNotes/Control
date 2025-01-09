@@ -2,7 +2,7 @@
 
 ## 목차
 
-|No.|Title|Simulation Code|Keywords|Remarks|
+|No.|Title|Attachment|Keywords|Remarks|
 |--|--|--|--|--|
 |1|[Stability](https://github.com/seminarNotes/Control/blob/main/Stability.md)|-|점근적 수렴성, Hurwitz, Schur, LMI|-|
 |2|[Controllability](https://github.com/seminarNotes/Control/blob/main/Controllability.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/Controllability/simulation_controllability_gramian.m)|reachable, controllable, grammian, energy ellipsoid|-|
