@@ -207,3 +207,15 @@ for idx = 1:sample_size - 1
 end
 ```
 
+이제 위 옵저버를 통해 상태를 추척한 결과를 살펴보자. 2차 상미분 방정식을 상태 방정식으로 쓰게 되면, 상태 변수는 $x_{1}(t) = \dot{x}(t)$와 $x_{2}(t) = x(t)$이 되어 첫번째 상태변수는 속도(velocity), 두번째 상태변수는 위치(position)을 나타낸다. 먼저, 실제 속도와 옵저버에 의해 추적되는 속도를 나타낸 그래프는 아래와 같다.
+
+<img src="https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer/Luenberger_Observer_Velocity_Estimation.jpg" alt="Luenberger Observer Velocity Estimation" width="500">
+
+파란색 실선이 실제 속도(Acutal velocity)를 나타내고, 빨간색 실선이 옵저버에 의해 측정된 속도(Estimated velocity)를 나타낸다. 2초까지 차이가 보이다가 3초부터는 동일한 속도로 궤적이 완전히 겹쳐져 있음을 확인할 수 있다.
+
+<img src="https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer/Luenberger_Observer_Position_Estimation.jpg" alt="Luenberger Observer Position Estimation" width="500">
+
+두번째 상태변수인 위치 또한, 2초까지는 차이를 보이다가 이후로는 두 상태 변수의 궤적이 겹쳐져 있는 모습을 확인할 수 있다. 실제 상태 변수와 측정된 상태 변수의 차이를 error로 정의했을 때, error의 궤적을 그리면 아래 그래프와 같다.
+
+<img src="https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer/Luenberger_Observer_Estimation_Error.jpg" alt="Luenberger Observer Estimation Error" width="500">
+
