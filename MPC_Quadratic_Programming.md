@@ -1,6 +1,6 @@
-# Model Predictive Control
+# MPC Qudratic Programming
 <p align="right">
-최초 작성일 : 2025-01-06 / 마지막 수정일 : 2025-01-06
+최초 작성일 : 2025-01-06 / 마지막 수정일 : 2025-01-11
 </p>
 
 ## 1. Model Predictive Control 의미
