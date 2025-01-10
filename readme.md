@@ -9,5 +9,5 @@
 |3|Observerability|-|-|작성예정|
 |4|[Feedback Control](https://github.com/seminarNotes/Control/blob/main/Feedback_Control.md)|-|피드백 제어|-|
 |5|[Luenberger Observer](https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer/simulation_luenberger_observer.m)|observeratility, Luenberger observer|-|
-|6|[MPC QP](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming/simulation_mpc_quadratic_programming.m)|모델 예측 제어, MPC, Quadratic Programming|-|
+|6|[MPC Quadratic Programming](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming/simulation_mpc_quadratic_programming.m)|모델 예측 제어, MPC, Quadratic Programming|-|
 
