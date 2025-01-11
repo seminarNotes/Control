@@ -388,7 +388,7 @@ T_final = 50;           % 전체 시간 구간
 이제 기존 MPC 비용 함수가 아래와 같이 주어져 있을 때,
 
 $$
-J & = \sum_{i=0}^{N-1} x_{t+i}^T Q x_{t+i} + u_{t+i}^T R u_{t+i} + x_{t+N}^T P x_{t+N}
+J = \sum_{i=0}^{N-1} x_{t+i}^T Q x_{t+i} + u_{t+i}^T R u_{t+i} + x_{t+N}^T P x_{t+N}
 $$
 
 상태 변수, 제어 입력, 종단 조건에 대한 weight 행렬 $Q$, $R$, $P$를 각각 아래와 같이 가정한다.
@@ -438,6 +438,7 @@ end
 ```
 
 또, augmented matrics인 
+
 $$
 \bar{Q} =
 \begin{bmatrix}
@@ -499,6 +500,16 @@ for k = 1:T_final
     y(:, k + 1) = C * x(:, k + 1); 
 end
 ```
+
+이제 위 시뮬레이션을 통해 그려지는 상태값, 출력값, 입력값에 대한 그래프를 각각 확인해보자. MPC는 주어진 경로나 상태값을 추적하는 동시에, 시스템의 에너지 비용이나 제어 입력의 크기를 최소화하는 최적 제어 문제에서 자주 활용된다. 
+
+$$
+\min_{u_{t:t+N-1}} J = \sum_{i=0}^{N-1} \left(x_{t+i} - x_{t+i}^{\text{ref}}\right)^T Q \left(x_{t+i} - x_{t+i}^{\text{ref}}\right) + u_{t+i}^T R u_{t+i} + \left(x_{t+N} - x_{t+N}^{\text{ref}}\right)^T P \left(x_{t+N} - x_{t+N}^{\text{ref}}\right)
+$$
+
+위와 같이 일반적인 MPC 문제에서 우리가 시뮬레이션을 한 것은 $x_{t+i}^{\text{ref}} = 0$인 경우에 해당한다. 따라서, 상태가 0을 평형점으로 갖도록하며, 최소한의 입력이 사용되도록 시스템이 제어된다. 시뮬레이션에 대한 결과는 아래와 같다.
+
+<img src="https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming/MPC_Quadratic_Programming_Simulation.jpg" alt="MPC Quadratic Programming Simulation" width="900">
 
 
 
