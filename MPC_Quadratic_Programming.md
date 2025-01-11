@@ -355,3 +355,153 @@ $$
 \text{constraints}& GU \leq W + T x_{t} \\
 \end{align*}
 $$
+
+## 3. 시뮬레이션  
+
+위에서 일반적인 MPC 문제를 quadratic programming 문제로 변환하였다. 이제 적당한 시스템 $(A,B,C,D)$에 대해서 quadratic programming을 시뮬레이션해보자. 먼저 다음과 같은 시스템을 가정한다.
+
+$$
+A = \begin{bmatrix}
+2.4936 & -1.2130 & 0.4176 \\
+2 & 0 & 0 \\
+0 & 1 & 0
+\end{bmatrix}, \quad
+B = \begin{bmatrix}
+0.25 \\
+0 \\
+0
+\end{bmatrix}, \quad
+C = \begin{bmatrix}
+0.0684 & 0.1288 & 0.0313
+\end{bmatrix}, \quad
+D = 0
+$$
+
+시뮬레이션에서 필요한 파라미터인 예측 구간 크기, 초기 상태값, 전체 시간 구간을 정의한다.
+
+``` matlab
+N_prediction = 10;      % 예측 구간 크기
+x_initial = [1; 1; 1];  % 초기 상태값
+T_final = 50;           % 전체 시간 구간
+```
+
+이제 기존 MPC 비용 함수가 아래와 같이 주어져 있을 때,
+
+$$
+J & = \sum_{i=0}^{N-1} x_{t+i}^T Q x_{t+i} + u_{t+i}^T R u_{t+i} + x_{t+N}^T P x_{t+N}
+$$
+
+상태 변수, 제어 입력, 종단 조건에 대한 weight 행렬 $Q$, $R$, $P$를 각각 아래와 같이 가정한다.
+
+``` matlab
+Q = C' * C;             
+R = eye(size(B, 2));    
+P = Q;
+```
+
+이제 QP 문제에서 사용되는 행렬 $M$, $S$, $\bar{Q}$, $\bar{R}$를 아래의 수식에 따라 차례대로 선언한다.
+
+$$
+M =
+\begin{bmatrix}
+A \\
+A^2 \\
+A^3 \\
+\vdots \\
+A^N,
+\end{bmatrix},
+\quad
+S =
+\begin{bmatrix}
+B & 0 & 0 & \cdots & 0 \\
+AB & B & 0 & \cdots & 0 \\
+A^2B & AB & B & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+A^{N-1}B & A^{N-2}B & A^{N-3}B & \cdots & B
+\end{bmatrix}
+$$
+
+를 각각 아래와 같이 반복문을 통해 정의한다.
+
+``` matlab
+M = [];
+S = [];
+for idx1 = 1:N_prediction
+    M = [M; A^idx1];
+    temp = [];
+    for idx2 = 1:idx1
+        temp = [temp A^(idx1 - idx2) * B];
+    end
+    temp = [temp zeros(size(temp, 1), (N_prediction - idx1) * size(B, 2))];
+    S = [S; temp];
+end
+```
+
+또, augmented matrics인 
+$$
+\bar{Q} =
+\begin{bmatrix}
+Q & 0 & \cdots & 0 \\
+0 & Q & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & P
+\end{bmatrix}, \quad
+\bar{R} =
+\begin{bmatrix}
+R & 0 & \cdots & 0 \\
+0 & R & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & R
+\end{bmatrix}
+$$
+
+는 각각 아래와 같이 내장함수를 이용할 수 있다.
+
+``` matlab
+Q_hat = blkdiag(kron(eye(N_prediction - 1), Q), P);
+R_hat = kron(eye(N_prediction), R);
+```
+
+이제 QP문제에서 비용 함수
+
+$$
+U^{T}HU + 2q^{T}U + c
+$$
+
+에서 행렬 $H$와 $q$를 정의한다. 이 때, 상수항인 $c$는 최적 입력을 결정하는데 영향을 주지 않기 때문에 두 행렬 행렬 $H$와 $q$만 정의하고, 아래와 같은 최적화 문제를 해결한 후, 상수항 $c$를 더해주는 것으로 바꾸어 생각한다.
+
+$$
+\min_{U} U^{T}HU + 2q^{T}U
+$$
+
+아래에서는 $H$를 대칭화를 통해 재정의한다.
+
+``` matlab
+H = S' * Q_hat * S + R_hat; 
+H = (H + H') / 2; % 대칭 행렬 보장
+q = S' * Q_hat * M;
+```
+
+이제 위에서 정의한 변수를 이용해서 QP문제에서 최적화 문제를 표현하고, 함수 quadprog를 이용해서 최적화 문제를 해결한다. 이후, 최적 입력 벡터가 계산되면, 첫번째 성분과 상태 방정식을 이용해서 상태 변수와 출력 변수를 계산한다. 이를 통해, 입력값 $u$, 상태값 $x$, 출력값 $y$을 각각 업데이트를 하면서 시뮬레이션을 수행한다.
+
+``` matlab
+for k = 1:T_final
+    % 비용 함수의 선형항 계산
+    f = q * x(:, k); 
+    
+    % QP 문제 풀이
+    u_mpc = quadprog(H, f, [], [], [], [], ...
+        -0.25 * ones(N_prediction, 1), 0.25 * ones(N_prediction, 1));
+    
+    % 제어 입력 사용 및 상태 업데이트
+    u(k) = u_mpc(1); % 첫번째 성분만 사용
+    x(:, k + 1) = A * x(:, k) + B * u(k); 
+    y(:, k + 1) = C * x(:, k + 1); 
+end
+```
+
+
+
+
+
+
