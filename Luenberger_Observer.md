@@ -139,7 +139,7 @@ L = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-## 3. Luenberger Observer의 시뮬레이션
+## 3. 시뮬레이션
 위에서 유도한 observer gain을 이용해서 실제 주어진 상태 변수를 얼마나 잘 추적하는지 matlab을 통해 확인해본다.
 
 먼저, 코드에서는 상태 $x$에 대한 dynamics equation이 있고, 옵저버 $\hat{x}$에 대한 dynamics equation이 별도로 주어진다. 각각의 방정식은 
