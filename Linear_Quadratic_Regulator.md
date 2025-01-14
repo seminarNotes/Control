@@ -40,3 +40,38 @@ $$
 \hat{u}(t) = -R^{-1}(t)B^T(t)J^*_x(t)
 $$
 
+
+## 3. 리카티 방정식 유도
+
+비용 함수 $J^*(x(t), t)$는 상태 변수 $x(t)$의 quadratic form로 가정할 수 있다.
+
+$$
+J(x(t), t) = \frac{1}{2} x^T(t)K(t)x(t)
+$$
+
+여기서,  $K(t)$는 시간에 의존하는 대칭 행렬이다. 위 비용 함수를 HJB 방정식에 대입하면
+
+$$
+\begin{align*}
+0 & = J_t(x(t), t) + H(x(t), \hat{u}(t), J_x, t) \\
+& = \frac{1}{2} x^T(t)\dot{K}(t)x(t) + \frac{1}{2} x^T(t)Q(t)x(t) - \frac{1}{2} J_x^T(t)B(t)R^{-1}(t)B^T(t)J_x(t) + x^T(t)K(t)A(t)x(t)
+\end{align*}
+$$
+
+을 얻고, 초기 조건은 아래와 같다.
+
+$$
+K(t_f) = H
+$$
+
+위 과정을 통해 Riccati 방정식을 얻는다.
+
+$$
+\dot{K}(t) + Q(t) - K(t)B(t)R^{-1}(t)B^T(t)K(t) + K(t)A(t) + A^T(t)K(t) = 0
+$$
+
+위 미분방정식을 해결하기 위한 초기 조건은 $K(t_f) = H$이고, 방정식을 통해 $K(t)$를 계산한다. 계산된 $K(t)$를 통해 최적 제어 입력 $\hat{u}(t)$를 계산한다.
+
+$$
+\hat{u}(t) = -R^{-1}(t)B^T(t)K(t)x(t)
+$$
