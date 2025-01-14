@@ -31,7 +31,10 @@ $$
 여기에서 $J_x(t)$은 상태 변수에 대한 비용 함수의 편미분, $\partial J / \partial x$,을 의미한다. Hamiltonian은 제어 입력 $u(t)$에 대해 최소화하면, 최적 제어 입력 $\hat{u}(t)$는 다음을 만족한다.
 
 $$
-\frac{\partial H}{\partial u} = R(t)u(t) + B^T(t)J_x(t) = 0
+\begin{align*}
+& \frac{\partial H}{\partial u} = R(t)u(t) + B^T(t)J_x(t) = 0 \\
+& \frac{\partial^{2} H}{\partial u^{2}} = R(t) > 0
+\end{align*}
 $$
 
 이로부터 최적 입력 $\hat{u}(t)$는 아래와 같이 계산된다.
