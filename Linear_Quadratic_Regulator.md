@@ -41,7 +41,7 @@ $$
 양변에서  $J(x, t)$을 소거하고, $\Delta t$를 나누어 정리하면 HJB 방정식을 유도할 수 있다.
 
 $$
-- \frac{\partial J}{\partial t} = \min_u \Big[ l(x, u, t) + \frac{\partial J}{\partial x}^T f(x, u, t) \Big]
+\frac{\partial J}{\partial t} = - \min_u \Big[ l(x, u, t) + \frac{\partial J}{\partial x}^T f(x, u, t) \Big]
 $$
 
 이제 HJB 방정식에서 Hamiltonian $H(x, u, J_{x}, t)$은 아래와 같이 정의된다.
@@ -53,7 +53,7 @@ $$
 이제 HJB 방정식을 Hamiltonian으로
 
 $$
-- \frac{\partial J}{\partial t} = \min_u H(x, u, J_{x}, t)
+\frac{\partial J}{\partial t} = - \min_u H(x, u, J_{x}, t)
 $$
 
 ## 3. LTV 시스템에서 LQR 문제
