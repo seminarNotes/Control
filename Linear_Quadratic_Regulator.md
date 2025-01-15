@@ -47,7 +47,7 @@ $$
 이제 HJB 방정식에서 Hamiltonian $H(x, u, J_{x}, t)$은 아래와 같이 정의된다.
 
 $$
-H(x, u, J_{x}, t) = l(x, u, t) + \big(\frac{\partial J}{\partial x} \big)^T f(x, u, t)
+H(x, u, J_{x}, t) = l(x, u, t) + \frac{\partial J}{\partial x}^T f(x, u, t)
 $$
 
 이제 HJB 방정식을 Hamiltonian으로
@@ -73,7 +73,7 @@ $$
 
 라 가정한다. 이 때, $x(t)$은 상태 벡터, $u(t)$은 제어 입력, $A(t)$은 상태 행렬, $B(t)$은 입력 행렬, $Q(t)$은 상태 오차에 대한 가중치 행렬, $R(t)$은 제어 입력에 대한 가중치 행렬, $H$은 최종 상태에 대한 가중치 행렬을 나타낸다.
 
-### 3-2. 최적 제어 입력 계산
+### 3-2. Optimal Control Input
 Hailtonian의 최적 입력을 찾는 것은 성능 지표 J를 최적화하는 데 충분 조건(sufficient condition)으로 작용한다. 따라서, 위에서 정의한 비용 함수에 대한 Hailtonian을 정의하고, 원래의 최적화 문제를 Hamiltonian의 미분을 통해 해결한다.
 
 $$
@@ -124,39 +124,39 @@ $$
 이제 비용 함수 $\hat{J}(x(t), t)$는 상태 변수 $x(t)$의 quadratic form로 가정하면,
 
 $$
-J(x(t), t) = \frac{1}{2} x^T(t)K(t)x(t)
+J(x(t), t) = \frac{1}{2} x^T(t)P(t)x(t)
 $$
 
-여기서,  $K(t)$는 시간에 의존하는 대칭 행렬이다. 위 비용 함수를 HJB 방정식에 대입하면
+여기서, $P(t)$는 시간에 의존하는 대칭 행렬이다. 위 비용 함수를 HJB 방정식에 대입하면
 
 $$
 \begin{align*}
 0 & = J_t(x(t), t) + H(x(t), \hat{u}(t), J_x, t) \\
-& = \frac{1}{2} x^T(t)\dot{K}(t)x(t) + \frac{1}{2} x^T(t)Q(t)x(t) - \frac{1}{2} J_x^T(t)B(t)R^{-1}(t)B^T(t)J_x(t) + x^T(t)K(t)A(t)x(t) \\
-& = \frac{1}{2}x^T(t)\dot{K}(t)x(t) + \frac{1}{2}x^T(t)Q(t)x(t) - \frac{1}{2}x^T(t)K(t)B(t)R^{-1}(t)B^T(t)K(t)x(t) + x^T(t)K(t)A(t)x(t) \\
-& = \frac{1}{2}x^T(t)\dot{K}(t)x(t) + \frac{1}{2}x^T(t)Q(t)x(t) - \frac{1}{2}x^T(t)K(t)B(t)R^{-1}(t)B^T(t)K(t)x(t) + \frac{1}{2}x^T(t)K(t)A(t)x(t) + \frac{1}{2}x^T(t)A^{T}(t)K(t)x(t)
+& = \frac{1}{2} x^T(t)\dot{P}(t)x(t) + \frac{1}{2} x^T(t)Q(t)x(t) - \frac{1}{2} J_x^T(t)B(t)R^{-1}(t)B^T(t)J_x(t) + x^T(t)P(t)A(t)x(t) \\
+& = \frac{1}{2}x^T(t)\dot{P}(t)x(t) + \frac{1}{2}x^T(t)Q(t)x(t) - \frac{1}{2}x^T(t)P(t)B(t)R^{-1}(t)B^T(t)P(t)x(t) + x^T(t)P(t)A(t)x(t) \\
+& = \frac{1}{2}x^T(t)\dot{P}(t)x(t) + \frac{1}{2}x^T(t)Q(t)x(t) - \frac{1}{2}x^T(t)P(t)B(t)R^{-1}(t)B^T(t)P(t)x(t) + \frac{1}{2}x^T(t)P(t)A(t)x(t) + \frac{1}{2}x^T(t)A^{T}(t)P(t)x(t)
 \end{align*}
 $$
 
-을 얻는다. 여기서 마지막 등호는 이차형식 $x^T(t)K(t)A(t)x(t)$는 $A(t)$가 비대칭 행렬일 경우, 상태 벡터 $x(t)$의 방향에 따라 다른 값을 가질 수 있기 때문에 $\frac{1}{2} x^T \big(K(t) A(t) + A^T(t) K(t)\big) x$로 대칭화를 한 결과이다.
+을 얻는다. 여기서 마지막 등호는 이차형식 $x^T(t)P(t)A(t)x(t)$는 $A(t)$가 비대칭 행렬일 경우, 상태 벡터 $x(t)$의 방향에 따라 다른 값을 가질 수 있기 때문에 $\frac{1}{2} x^T \big(P(t) A(t) + A^T(t) P(t)\big) x$로 대칭화를 한 결과이다.
 
 
 위 방정식의 초기 조건은 아래와 같다.
 
 $$
-K(t_f) = H
+P(t_f) = H
 $$
 
 이제 벡터 $x(t)$는 임의의 벡터이기 때문에, Riccati 방정식을 얻는다.
 
 $$
-\dot{K}(t) + Q(t) - K(t)B(t)R^{-1}(t)B^T(t)K(t) + K(t)A(t) + A^T(t)K(t) = 0
+\dot{P}(t) + Q(t) - P(t)B(t)R^{-1}(t)B^T(t)P(t) + P(t)A(t) + A^T(t)P(t) = 0
 $$
 
-위 미분방정식을 해결하기 위한 초기 조건은 $K(t_f) = H$이고, 방정식을 통해 $K(t)$를 계산한다. 계산된 $K(t)$를 통해 최적 제어 입력 $\hat{u}(t)$를 계산한다.
+위 미분방정식을 해결하기 위한 초기 조건은 $P(t_f) = H$이고, 방정식을 통해 $P(t)$를 계산한다. 계산된 $P(t)$를 통해 최적 제어 입력 $\hat{u}(t)$를 계산한다.
 
 $$
-\hat{u}(t) = -R^{-1}(t)B^T(t)K(t)x(t)
+\hat{u}(t) = -R^{-1}(t)B^T(t)P(t)x(t)
 $$
 
 ## 4. LTI 시스템에서 LQR 문제
@@ -176,26 +176,42 @@ $$
 
 로 정의한다. 여기서 $x(t)$는 상태 벡터, $u(t)$는 제어 입력, $A$는 상태 행렬, $B$는 입력 행렬, $Q$는 상태 오차에 대한 가중치 행렬, $R$는 제어 입력에 대한 가중치 행렬, $H$는 최종 상태에 대한 가중치 행렬이다.
 
-### 4-2. 대수적 Riccati 방정식
+### 4-2. Algebraic Riccati Equation
 
-LTI 시스템에서는 시간이 무한대로 갈 때($t_f \to \infty$), Riccati 방정식의 해가 시간에 의존하지 않는 steady-state로 수렴한다. 이 경우 Riccati 미분방정식은 아래와 같은 **대수적 Riccati 방정식(Algebraic Riccati Equation, ARE)**으로 단순화된다.
+LTI 시스템에서 비용함수 $J$가 $\hat{J}=x^{T}(t)Px(t)$를 만족한다고 가정했을 때, 아래와 같이 HJB을 만족한다.
 
-$$
-0 = PA + A^TP - PBR^{-1}B^TP + Q
-$$
-
-여기서 $P$는 대칭 행렬이고, 최적 비용 함수는 아래와 같이 표현된다.
 
 $$
-J(x_0) = \frac{1}{2} x_0^T P x_0
+\frac{\partial J}{\partial t} = - \min_{u(t)} \big[ u(t)^{T}Ru(t) + x^{T}(t)Qx(t) + 2x^{T}(t)P(Ax(t)+Bu(t)) \big]
 $$
 
-### 4-3. 최적 제어 입력 계산
-
-최적 제어 입력은 다음과 같이 계산된다.
+그러면 Hailtonian은 완전제곱식으로 표현할 수 있다.
 
 $$
-u^*(t) = -Kx(t), \quad K = R^{-1}B^TP
+\begin{align*}
+H & = u(t)^{T}Ru(t) + x^{T}(t)Qx(t) + 2x^{T}(t)P(Ax(t)+Bu(t)) \\
+& = u(t)^{T}Ru(t) + x^{T}(t)Qx(t) + x^{T}(t)PBR^{-1}B^{T}Px(t) - x^{T}(t)PBR^{-1}B^{T}Px(t) + 2x^{T}(t)PAx(t) + 2x^{T}(t)PBu(t) \\
+& = \big( u(t) + R^{-1}B^{T}Px(t) \big)^{T}R \big( u + R^{-1}B^{T}Px(t) \big) - 
+x^{T}(t)\big( Q + PA + A^{T}P - PBR^{-1}B^{T}P \big) x(t)
+\end{align*}
 $$
 
-여기서 $K$는 최적 이득 행렬(optimal gain matrix)을 나타낸다. 따라서, 최적 제어 입력 $u^*(t)$는 시스템의 상태 $x(t)$와 gain matrix $K$에 의해 결정된다.
+이제 Hamiltonian이 최소가 되기 위해선 완전제곱식인 첫번째 항이 $0$이 되어야 한다.
+
+$$
+u(t) + R^{-1}B^{T}Px(t)  = 0
+$$
+
+이를 통해 최적 제어 입력 $\hat{u}(t)$를 계산할 수 있다.
+
+$$
+\hat{u}(t) = - R^{-1}B^{T}Px(t)
+$$
+
+그리고, 최적 제어 입력 $\hat{u}(t)$를 결정하기 위해서는 행렬 $P$가 결정되어야 하는데, 이것은 Hamiltonian의 두 번째 항이 $0$이 되어야 한다.
+
+$$
+Q + PA + A^{T}P - PBR^{-1}B^{T}P = 0
+$$
+
+위 식을 Algebraic Riccati Equation이라고 하고, 위 식을 통해 행렬 $P$을 결정하고, 최종적으로 최적 제어 입력을 결정한다.
