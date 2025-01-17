@@ -10,13 +10,14 @@ MPC(Model Predictive Control)는 시스템의 상태를 기반으로 다양한 �
 
 이 문제를 해결하기 위해 MPC를 matrix-form으로 변환하여 Quadratic Programming(QP) 문제로 표현하는 방법이 제안되었다. QP 문제는 목적 함수와 제약 조건이 이차 함수와 선형식으로 구성된 최적화 문제로, 다양한 표준화된 알고리즘을 통해 효율적으로 해결할 수 있다. 이러한 변환은 계산 부담을 줄이고, 최적화 문제를 명확한 수학적 형식으로 재정의하여 실시간 제어의 구현 가능성을 높일 수 있다. 하지만, QP로 변환한 MPC 역시 온라인 최적화를 기반으로 하기 때문에 여전히 반복적인 계산의 부담이 존재하며, 고속 동작이 요구되는 상황에서는 완벽한 해결 방법을 제시하진 못했다. 그래서, 고속을 요구하지 않는 반복 작업에 대해서는 QP문제의 MPC를 사용하는 것이 적절할 수 있으나, 고속을 요구하는 문제에서는 다른 해결 방법을 고민해야 한다.
 
-**이미지1**
+![MPC](https://github.com/seminarNotes/Control/blob/main/Explicit_MPC/Explicit_MPC_MPC.jpg)
+
 
 높은 속도에 대한 한계를 극복하기 위해 제안된 방법이 바로 Explicit MPC이다. Explicit MPC는 기존 MPC의 온라인 최적화 방식과 다르게, 모든 상태 변수에 대한 최적의 제어 입력을 사전에 오프라인에서 계산한다. 이 과정에서 상태 공간을 분할(partition)하여 각 영역별로 최적화 문제를 해결하고, 그 결과를 룩업 테이블(lookup table)의 형태로 저장한다. 이를 통해 Explicit MPC는 실시간 실행 시 최적화 계산이 필요 없으며, 단순히 현재 상태에 해당하는 영역을 확인하고 미리 계산된 제어 입력을 조회하여 사용할 수 있다.
 
 이 방식은 특히 임베디드 시스템이나 계산 자원이 제한된 환경에서 매우 효과적이다. Explicit MPC는 실시간 최적화를 수행하는 대신, 오프라인 계산으로 최적화의 대부분을 완료하기 때문에 온라인 계산 부담을 크게 줄이고, 고정된 실행 시간을 보장한다. 결과적으로, 이는 빠른 제어가 요구되는 시스템에서 안정성과 효율성을 동시에 제공할 수 있다.
 
-**이미지2**
+![Explicit MPC](https://github.com/seminarNotes/Control/blob/main/Explicit_MPC/Explicit_MPC_EMPC.jpg)
 
 
 ## 2. Backgrounds
@@ -101,7 +102,7 @@ $$
 \lambda^T (GU - W - T x_0) = 0
 $$
 
-## 3. Solution to Explcit MPC
+## 3. Solution to Explicit MPC
 
 상태 변수의 초기값 $x_{0}^{0}$, 즉, 시스템이 현재 놓여져 있는 상태를 나타내는 변수가 주어져 있다고 가정하자. 그러면, qaudratic programming 문제를 수치적으로 풀어 최적의 제어 입력 $\hat{U}(x_{0}^{0})$을 계산한다.
 
