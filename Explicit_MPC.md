@@ -1,7 +1,7 @@
 # Explicit MPC
 
 <p align="right">
-최초 작성일 : 2025-01-16 / 마지막 수정일 : 2025-01-16
+최초 작성일 : 2025-01-16 / 마지막 수정일 : 2025-01-17
 </p>
 
 ## 1. Explicit MPC 개요
@@ -19,7 +19,7 @@ MPC(Model Predictive Control)는 시스템의 상태를 기반으로 다양한 �
 **이미지2**
 
 
-## 2. Prior Knowledge 
+## 2. Backgrounds
 
 ### 2.1 Parametric Programming
 
@@ -117,15 +117,69 @@ $$
 특정 제약 조건이 활성 상태에 있다는 것은 해당 제약 조건이 최적해에서 경계에 도달했다는 것을 의미한다.
 
 $$
-\tilde{G}\hat{U}(x_{0}^{0}) \leq \tilde{W} + \tilde{T} x_{0}^{0}
+\tilde{G}\hat{U}(x_{0}^{0}) = \tilde{W} + \tilde{T} x_{0}^{0}
 $$
 
 2. 비활성 제약조건(Inactive Constraints) \
 특정 제약 조건이 비활성 상태에 있다는 것은, 해당 제약 조건이 최적해 내부에서 만족된다는 것을 의미한다.
 
 $$
-\bar{G}\hat{U}(x_{0}^{0}) = \bar{W} + \bar{T} x_{0}^{0}
+\bar{G}\hat{U}(x_{0}^{0}) < \bar{W} + \bar{T} x_{0}^{0}
 $$
 
 QP는 제약 조건이 있는 최적화 문제이기 때문에 모든 제약 조건을 동시에 고려하는 것은 계산면에서 비효율적이다. 따라서, 활성 제약 조건(경계에 있는 조건)만 고려하고, 비활성 제약조건은 무시하는 방식으로 문제를 단순화한다. 따라서, 위 과정은 문제를 단순화하기 위에 활성 제약조건과 비활성 제약조건을 구분하는 단계이다.
 
+이제 $x_{0}^{0}$ 근방의 $x_{0}$를 가정하자. 그러면 Stationity 조건은 아래와 같이 주어며,
+
+$$
+H U + q + G^T \lambda = 0
+$$
+
+따라서, 최적 제어 입력 $\hat{U}$는 다음과 같이 계산된다.
+
+$$
+\hat{U} = H^{-1}[-q - G^T \hat{\lambda}]
+$$
+
+$G$의 경우, 전체 제약조건을 만족하는 기호를 의미한다. 그런데, 비활성화 제약 조건의 라그랑지 승수 $\lambda$는 항상 $0$이기 때문에 실제 계산에서는 활성 제약 조건만 영향을 미친다. 따라서, complimentary slackness에 의하면, 아래 등식을 만족한다.
+
+$$
+G^T \hat{\lambda} = \tilde{G}^T \hat{\tilde{\lambda}} \quad (\bar{\lambda} = 0)
+$$
+
+그래서, 최적 제어 입력 $\hat{U}$는 다음과 같이 다시 쓸 수 있다.
+
+$$
+\hat{U} = H^{-1}[-q - \tilde{G}^T \hat{\tilde{\lambda}}]
+$$
+
+이제 위 최적 제어 입력을 활성 제약 조건 수식에 대입하고,
+
+$$
+\tilde{G}H^{-1}[-q - \tilde{G}^T \hat{\tilde{\lambda}}] = \tilde{W} + \tilde{T} x_{0}
+$$
+
+위 식을 $\hat{\tilde{\lambda}}$에 대해 정리해서
+
+$$
+\hat{\tilde{\lambda}} = - \left(\tilde{G}H^{-1}\tilde{G}^T\right)^{-1} \left(\tilde{W} + \tilde{T}x_{0} + \tilde{G}H^{-1}q\right)
+$$
+
+최종적으로, 최적 제어 입력 $\hat{U}(x_{0})$은 아래와 같다.
+
+
+$$
+\hat{U}(x_{0}) = H^{-1} \left[ -q + \tilde{G}^T \left( \tilde{G}H^{-1}\tilde{G}^T \right)^{-1} \left( \tilde{W} + \tilde{T}x_0 + \tilde{G}H^{-1}q \right) \right]
+$$
+
+마지막 식은 $x0$가 선형적으로 나타난다는 점에서, 초기 상태값 $x_{0}^{0}$ 근처에서 최적해 $\hat{U}(x_{0})$는 상태 $x_{0}$의 Affine 함수로 표현된다. 다시 말해, 위 결론은 아래와 같은 형태를 갖는다.
+
+$$
+\hat{U}(x_{0}) = K x_{0} + L
+$$
+
+여기서, $K$는 상태 $x_{0}$에 대한 선형적인 상호작용을 나타내는 이득 행렬이고, $L$은 상수항을 나타낸다. 기존 MPC 문제와 동일하게 위와 같은 방법으로 최적 제어 입력 $\hat{U}(x_{0})$에서 첫 번째 성분으로 MPC 제어 입력이 결정된다.
+
+$$
+u_{MPC}(x_0) = \begin{bmatrix} I_{n_u \times n_u} & 0 & \cdots & 0 \end{bmatrix} \hat{U}(x_0)
+$$
