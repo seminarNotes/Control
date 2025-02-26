@@ -54,9 +54,34 @@ class MobileRobot:
             theta_traj.append(self.state[2])
         
         return x_traj, y_traj, theta_traj
-
-class MPCController:
-    def __init__(self, horizon=10, dt=0.1):
+    
+class EKF:
+    def __init__(self):
+        self.Q = np.diag([0.01, 0.01, 0.001]) 
+        self.R = np.diag([0.1, 0.1, 0.05])  
+        self.P = np.diag([1.0, 1.0, 1.0])   
+    
+    def predict(self, state, u, dt):
+        theta = state[2]
+        F = np.diag([1.0, 1.0, 1.0])  
+        B = np.array([
+            [np.cos(theta) * dt, 0],
+            [np.sin(theta) * dt, 0],
+            [0, dt]
+        ])
+        state_pred = state + B @ u
+        self.P = F @ self.P @ F.T + self.Q
+        return state_pred
+    
+    def update(self, state_pred, measurement):
+        H = np.diag([1.0, 1.0, 1.0])  
+        K = self.P @ H.T @ np.linalg.inv(H @ self.P @ H.T + self.R)
+        state_updated = state_pred + K @ (measurement - H @ state_pred)
+        self.P = (np.diag([1.0, 1.0, 1.0])  - K @ H) @ self.P
+        return state_updated
+    
+class MPC:
+    def __init__(self, horizon = 10, dt = 0.1):
         self.horizon = horizon
         self.dt = dt
     
@@ -133,10 +158,11 @@ def animate_robot_motion(x_goal, y_goal, x_real, y_real):
 
 if __name__ == '__main__' :
 
+    # MPC 사용함
     goal_trajectory_generator = GoalTrajectoryGenerator()
     robot_goal = MobileRobot()
-    robot_real = MobileRobot(initial_state=np.array([2.0, -2.0, 0.0]))  
-    mpc_controller = MPCController()
+    robot_real = MobileRobot(initial_state=np.array([1.0, -1.0, 0.0]))  
+    mpc_controller = MPC()
 
     goal_traj = goal_trajectory_generator.trajectory
     x_goal, y_goal, theta_goal = robot_goal.simulate_motion(goal_traj)
@@ -147,7 +173,27 @@ if __name__ == '__main__' :
         robot_real.mobile_robot_dynamics(mpc_control)
         x_real.append(robot_real.state[0])
         y_real.append(robot_real.state[1])
+    animate_robot_motion(x_goal, y_goal, x_real, y_real)
 
 
+    # MPC + EKF 사용
+    goal_trajectory_generator = GoalTrajectoryGenerator()
+    robot_goal = MobileRobot()
+    robot_real = MobileRobot(initial_state=np.array([1.0, -1.0, 0.0]))  
+    mpc_controller = MPC()
+    ekf = EKF()
 
+    goal_traj = goal_trajectory_generator.trajectory
+    x_goal, y_goal, theta_goal = robot_goal.simulate_motion(goal_traj)
+    x_real, y_real, theta_real = [], [], [] 
+
+    for i in range(len(goal_traj)):
+        state_pred = ekf.predict(robot_real.state, goal_traj[i], dt = 0.1)
+        measurement = np.array([x_goal[i], y_goal[i], theta_goal[i]])
+        estimated_state = ekf.update(state_pred, measurement)
+        
+        mpc_control = mpc_controller.solve_mpc(estimated_state, np.array([x_goal[i], y_goal[i], theta_goal[i]]))
+        robot_real.mobile_robot_dynamics(mpc_control)
+        x_real.append(robot_real.state[0])
+        y_real.append(robot_real.state[1])
     animate_robot_motion(x_goal, y_goal, x_real, y_real)
