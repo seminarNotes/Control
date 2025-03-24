@@ -1,4 +1,4 @@
-# Mobile Robot
+# 모바일 로봇(Mobile Robot)
 <p align="right">
 최초 작성일   2025-03-01 / 마지막 수정일   2025-03-01
 </p>
@@ -175,6 +175,8 @@ $$
 | Local-Frame Error | Local(FR) | 높음 | 중간 | MPC, 로컬 제어기 |
 | Polar Error | Polar | 높음  | 낮음 | Lyapunov 기반 비선형 제어   |
 
+아래에서는 리더 로봇의 상태 $x_{L}(t)$와 목표 상태 $x_{d}(t)$, 팔로워 로봇 상태 $x_{F}(t)$와 현재 상태 $x(t)$를 구분 없이 사용한다.
+
 ### 2-1. Global-Frame Error (World Frame Error)
 
 단순히 전역 좌표계에서 리더와 팔로워의 상태 차이를 계산하여 에러를 정의하는 방식이다.
@@ -211,57 +213,37 @@ $$
 이제, 에러 상태 방정식을 얻기 위해 위 식을 시간에 대해 미분하면 다음과 같이 정리된다 
 
 $$
-\dot{e}(t) = \dot{q_{L}}(t) - \dot{q_{F}(t)
+\dot{e}(t) = \dot{q_{L}}(t) - \dot{q_{F}}(t)
 $$
 
 로봇의 운동 방정식을 각각 대입하면 
 
 $$
-\begin{aligned}
-\dot{q}_{L}(t) &=
-\begin{bmatrix}
-v_{L} \cos\theta_{L} \\
-v_{L} \sin\theta_{L} \\
-w_{L}
-\end{bmatrix}, \quad
-\dot{q}_{F}(t) =
-\begin{bmatrix}
-v_{F} \cos\theta_{F} \\
-v_{F} \sin\theta_{F} \\
-w_{F}
-\end{bmatrix} \\
-\Rightarrow \quad
-\dot{e}(t) &= 
+\dot{e}(t) = 
 \begin{bmatrix}
 v_{L} \cos\theta_{L} - v_{F} \cos\theta_{F} \\
 v_{L} \sin\theta_{L} - v_{F} \sin\theta_{F} \\
 w_{L} - w_{F}
 \end{bmatrix}
-\end{aligned}
 $$
 
 위 식은 전역 좌표계에서의 위치/자세 오차에 대한 시간 변화율을 의미하며, 선형화를 통해 다음과 같은 상태방정식 형태로 정리된다 
 
 $$
-\dot{e}(t) = A(t) e(t) + B(t) \delta u(t)
-$$
-
-여기서  $\delta u(t) = u(t) - u_d(t) $는 제어 입력의 오차이며,  $A(t) $,  $B(t) $는 다음과 같이 정의되는 시변 Jacobian 행렬이다 
-
-$$
-A(t) =
+\dot{e}(t) = 
 \begin{bmatrix}
 0 & 0 & -v_d \sin\theta_d \\
 0 & 0 & v_d \cos\theta_d \\
 0 & 0 & 0
-\end{bmatrix}, \quad
-B(t) =
+\end{bmatrix} e(t) +
 \begin{bmatrix}
 \cos\theta_d & 0 \\
 \sin\theta_d & 0 \\
 0 & 1
 \end{bmatrix}
+( u(t) - u_d(t))
 $$
+
 
 
 ### 2-2. Local-Frame Error(Follower-Local Error)
@@ -275,100 +257,93 @@ $$
 FR를 제어하기 위해 상태 오차 $q_{e}$를 최소화 하도록 하기 때문에 아래와 같이 FR을 기준으로 LR에 대한 상태 추종 오차를 정의한다. 
 
 $$
-e = 
+e(t) = 
 \begin{bmatrix}
-e_{x} \\ 
-e_{y} \\ 
-e_{\theta}
+e_{x}(t) \\ 
+e_{y}(t) \\ 
+e_{\theta}(t)
 \end{bmatrix} 
 = \begin{bmatrix}
-\cos\theta_{F} & \sin\theta_{F} & 0 \\ 
--\sin\theta_{F} & \cos\theta_{F} & 0 \\ 
+\cos\theta_{F}(t) & \sin\theta_{F}(t) & 0 \\ 
+-\sin\theta_{F}(t) & \cos\theta_{F}(t) & 0 \\ 
 0 & 0 & 1
 \end{bmatrix}
-\left( q_{L} - q_{F} \right)
+\left( q_{L}(t) - q_{F}(t) \right)
 $$
 
-위 수식은 두 로봇의 상태 $q_{L}$, $q_{F}$의 전역 좌표계에서 계산된 오차 상태를 FR의 국소(local) 좌표계로 변환한 것을 의미한다. 이제 위 상태값을 대입하여 식을 정리하면 아래와 같다.
-
 $$
-e = 
+e(t) = 
 \begin{bmatrix}
-e_{x} \\ 
-e_{y} \\ 
-e_{\theta}
+e_{x}(t) \\ 
+e_{y}(t) \\ 
+e_{\theta}(t)
 \end{bmatrix} 
 = \begin{bmatrix}
-\cos\theta_{F} & \sin\theta_{F} & 0 \\ 
--\sin\theta_{F} & \cos\theta_{F} & 0 \\ 
+\cos\theta_{F}(t) & \sin\theta_{F}(t) & 0 \\ 
+-\sin\theta_{F}(t) & \cos\theta_{F}(t) & 0 \\ 
 0 & 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-x_{L} - x_{F} \\ 
-y_{L} - y_{F} \\ 
-\theta_{L} - \theta_{F}
+x_{L}(t) - x_{F}(t) \\ 
+y_{L}(t) - y_{F}(t) \\ 
+\theta_{L}(t) - \theta_{F}(t)
 \end{bmatrix} 
 = \begin{bmatrix}
-\cos\theta_{F}(x_{L} - x_{F}) + \sin\theta_{F}(y_{L} - y_{F}) \\ 
--\sin\theta_{F}(x_{L} - x_{F}) + \cos\theta_{F}(y_{L} - y_{F}) \\ 
-\theta_{L} - \theta_{F}
+\cos\theta_{F}(t)(x_{L}(t) - x_{F}(t)) + \sin\theta_{F}(t)(y_{L}(t) - y_{F}(t)) \\ 
+-\sin\theta_{F}(t)(x_{L}(t) - x_{F}(t)) + \cos\theta_{F}(t)(y_{L}(t) - y_{F}(t)) \\ 
+\theta_{L}(t) - \theta_{F}(t)
 \end{bmatrix}
 $$
 
-그러면, 에러 상태 방정식을 얻기 위해 위 식을 미분하면,
-
 $$
-\begin{align*}
-\dot{e} 
+\dot{e}(t) 
 = \begin{bmatrix}
-v_{L} \cos e_{\theta} + w_{F} e_{y} - v_{F} \\
-v_{L} \sin e_{\theta} - e_{x} w_{F} \\
-w_{L} - w_{F}
+v_{L}(t) \cos e_{\theta}(t) + w_{F}(t) e_{y}(t) - v_{F}(t) \\
+v_{L}(t) \sin e_{\theta}(t) - e_{x}(t) w_{F}(t) \\
+w_{L}(t) - w_{F}(t)
 \end{bmatrix} =
 \begin{bmatrix}
-w_{F} e_{y} - v_{F} \\ 
--e_{x} w_{F} \\
--w_{F}
+w_{F}(t) e_{y}(t) - v_{F}(t) \\ 
+- e_{x}(t) w_{F}(t) \\
+- w_{F}(t)
 \end{bmatrix} +
 \begin{bmatrix}
-\cos e_{\theta} & 0 \\
-\sin e_{\theta} & 0 \\
+\cos e_{\theta}(t) & 0 \\
+\sin e_{\theta}(t) & 0 \\
 0 & 1
-\end{bmatrix} u
-\end{align*}
+\end{bmatrix} u(t)
 $$
 
-을 얻는다.
 
 
 ### 2-3. Polar Coordinate Error
 
 Polar Coordinate Error는 로봇과 목표 사이의 상대적인 위치 관계를 극좌표계로 표현한 오차 모델로, 제어기의 직관성을 극대화하기 위해 자주 사용된다. 전역 좌표계에서 계산된 위치 오차를 기반으로, 상대 거리와 방향 관계를 극좌표 상의 세 가지 요소인 거리 오차  $\rho $, 방향 오차  $\alpha $, 자세 오차  $\beta $로 변환하여 정의한다.
 
-목표 상태  $q_{L} = [x_{L}, y_{L}, \theta_{L}]^T $, 로봇 상태  $q_{F} = [x_{F}, y_{F}, \theta_{F}]^T $가 주어졌을 때, 전역 좌표계 기준 위치 오차는 다음과 같다 
+목표 상태 $q_{d}(t) = [x_{d}(t), y_{d}(t), \theta_{d}(t)]^T$, 로봇 상태 $q(t) = [x(t), y(t), \theta(t)]^T$ 가 주어졌을 때, 전역 좌표계 기준 위치 오차는 다음과 같다 
 
 $$
-\Delta x = x_{L} - x_{F}, \quad \Delta y = y_{L} - y_{F}
+x_{d}(t) - x(t), \quad y_{d}(t) - y(t)
 $$
 
 이제 이 위치 오차를 극좌표 형태로 변환하여 다음과 같은 오차 변수들을 정의한다 
 
 $$
 \begin{aligned}
-\rho &= \sqrt{(\Delta x)^2 + (\Delta y)^2} \\
-\alpha &= -\theta_{F} + \arctan2(\Delta y, \Delta x) \\
-\beta &= -\theta_{L} + \arctan2(\Delta y, \Delta x)
-= \theta_{L} - \theta_{F} - \alpha
+\rho(t) &= \sqrt{(x_{d}(t) - x(t))^2 + (y_{d}(t) - y(t))^2} \\
+\alpha(t) &= -\theta(t) + \arctan2(y_{d}(t) - y(t),\; x_{d}(t) - x(t)) \\
+\beta(t) &= -\theta_{d}(t) + \arctan2(y_{d}(t) - y(t),\; x_{d}(t) - x(t)) \\
+         &= \theta_{d}(t) - \theta(t) - \alpha(t)
 \end{aligned}
 $$
 
-상태 변수 $\rho$는 로봇과 목표 사이의 거리 오차, $\alpha$는 로봇이 현재 회전 해야할 방향, $\beta$는 최종 목표 방향과 각도 차이를 의미한다. 또한, 위 오차 항들을 시간에 따라 미분하여 오차 상태 방정식을 유도하면 다음과 같이 표현할 수 있다 
+오차 변수들의 시간 미분을 통해 다음의 극좌표 오차 상태 방정식을 얻는다 
 
 $$
 \begin{aligned}
-\dot{\rho} &= -v_{F} \cos\alpha \\
-\dot{\alpha} &= \omega_{L} - \omega_{F} - \frac{v_{F}}{\rho} \sin\alpha \\
-\dot{\beta} &= -\omega_{L}
+\dot{\rho}(t) &= -v(t) \cos\alpha(t) \\
+\dot{\alpha}(t) &= w_{d}(t) - w(t) - \frac{v(t)}{\rho(t)} \sin\alpha(t) \\
+\dot{\beta}(t) &= -w_{d}(t)
 \end{aligned}
 $$
 
