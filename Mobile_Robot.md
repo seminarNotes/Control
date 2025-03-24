@@ -342,3 +342,8 @@ $$
 $$
 
 이러한 극좌표 오차 방정식은 제어기의 안정성을 Lyapunov 함수 기반으로 증명하거나, 목표점 도달을 보장하는 비선형 제어기에 자주 응용된다. 특히, 로봇이 최종 위치뿐만 아니라 도착 방향까지 정밀하게 제어되어야 하는 환경에서 매우 유용하다.
+
+
+![Trajectory_1](https://github.com/seminarNotes/Control/blob/main/trajectory_1.gif)
+
+![Trajectory_2](https://github.com/seminarNotes/Control/blob/main/trajectory_2.gif)
