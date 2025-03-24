@@ -303,9 +303,9 @@ v_{L}(t) \sin e_{\theta}(t) - e_{x}(t) w_{F}(t) \\
 w_{L}(t) - w_{F}(t)
 \end{bmatrix} =
 \begin{bmatrix}
-w_{F}(t) e_{y}(t) - v_{F}(t) \\ 
-- e_{x}(t) w_{F}(t) \\
-- w_{F}(t)
+w_{F}(t) e_{y}(t) - v_{F}(t) \\
+\- e_{x}(t) w_{F}(t) \\
+\- w_{F}(t)
 \end{bmatrix} +
 \begin{bmatrix}
 \cos e_{\theta}(t) & 0 \\
@@ -313,8 +313,6 @@ w_{F}(t) e_{y}(t) - v_{F}(t) \\
 0 & 1
 \end{bmatrix} u(t)
 $$
-
-
 
 ### 2-3. Polar Coordinate Error
 
