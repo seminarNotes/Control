@@ -1,87 +1,96 @@
 # Lyapunov Stability
 <p align="right">
-최초 작성일 : 2024-12-11 / 마지막 수정일 : 2025-01-07
+최초 작성일 : 2025-03-25 / 마지막 수정일 : 2025-03-25
 </p>
 
-Lyapunov 안정성은 동적 시스템의 안정성을 분석하는 가장 강력한 도구 중 하나이다. 본 문서에서는 Lyapunov 안정성의 수학적 배경과 그에 따른 안정성 분석 방법을 수식을 중심으로 상세히 설명한다.
+Lyapunov 안정성은 동적 시스템의 안정성을 분석하는 가장 강력한 도구 중 하나이다. Lyapunov 함수의 강력한 점은 선형 시스템의 경우, Lyapunov 함수의 존재성과 시스템의 안정성을 동치 관계를 가지며, 비선형 시스템의 경우, Lyapunov 함수의 존재성만으로 대응하는 시스템의 안정성을 보장할 수 있다는 점이다. 아래에서는 Lyapunov 함수를 소개하고, 함수를 통해 비선형 시스템의 안정성을 설명한다.
 
+아래 글에서는 분석의 단순화를 위해, 2가지를 가정한다. 
 
+1. Equilibrium poin은 원점 $x = 0$이다.
+2. 제어 입력이 없는 자율 시스템(Autonomous System)이다.
 
-## 1. 기본 개념
+$$
+\dot{x} = f(x)
+$$
 
-동적 시스템
+첫 번째 가정은 일반성을 잃지 않는다. 임의의 평형점 $x_e$가 존재하는 경우, 
+
+$$
+x' = x - x_e
+$$
+
+을 통해 평형점을 원점으로 이동시켜 해석할 수 있기 때문이다. 따라서 각 평형점에 대해 국소적으로 분석한다면, 이 가정은 무리가 없다. 하지만, 두번째 가정은, 일부 일반성을 상실한다. Real world에서의 많은 시스템들은 제어 입력 $u(t)$, 외란 $d(t)$ 혹은 시간 종속 변수/요소가 포함된 비선형 시스템이다. 이러한 시스템에 대해 단순한 자율 시스템 기반의 Lyapunov 안정성 조건은 충분하지 않으며, Stability(ISS), Control Lyapunov Function(CLF), LaSalle's Invariance Principle, Barbalat's Lemma 등의 확장된 개념이 요구된다.
+
+## 1. Lyapunov Stability
+
+동적 비선형 시스템은 아래와 같이 정의하자.
+
 $$
 \dot{x}(t) = f(x(t))
 $$
-에서 $x(t) \in \mathbb{R}^n$은 상태 변수이고, $f: \mathbb{R}^n \to \mathbb{R}^n$는 시스템의 동역학을 나타내는 연속 함수이다. 평형점 $x = 0$의 안정성을 분석할 때, Lyapunov 함수 $V(x): \mathbb{R}^n \to \mathbb{R}$를 사용하여 시스템의 에너지나 “잠재적 함수”로서의 역할을 평가한다.
 
+여기서, $x(t) \in R^n$은 상태 변수이고, $f: R^n \to R^n$은 연속 함수이다. 특히, Equilibrium point $x = 0$의 안정성(stability in the sense of Lyapunov)이라는 것은 임의의 $\epsilon > 0$에 대해, 대응하는 $\delta = \delta(\epsilon) > 0$이 존재해서 다음을 만족함을 의미한다.
 
-
-## 2. Lyapunov 함수
-
-함수 $V(x)$는 다음 조건을 만족하면 평형점 $x = 0$의 안정성 분석에 유용하다.
-
-1. 양의 정함수 (Positive Definiteness):  
-   $$V(0) = 0 \quad \text{and} \quad V(x) > 0 \quad \forall x \neq 0.$$
-2. 시간 미분의 부정성 (Negative (Semi-)Definiteness):  
-   시스템의 동역학에 따라 $V(x)$의 시간 미분은
-   $$\dot{V}(x) = \frac{\partial V}{\partial x} f(x) \leq 0 \quad \text{(또는 } < 0 \text{ for } x \neq 0\text{)}.$$
-
-즉, $V(x)$가 아래 조건을 만족하면 Lyapunov 함수라고 한다.
 $$
-\begin{aligned}
-V(0) &= 0, \\
-V(x) &> 0 \quad \forall x \neq 0, \\
-\dot{V}(x) &= \frac{\partial V}{\partial x} f(x) \leq 0 \quad (\text{or } < 0 \text{ if } x \neq 0).
-\end{aligned}
+||x(0)|| < \delta \quad \text{implies} \quad \|x(t)\| < \varepsilon \quad \quad \text{for} \quad  \forall t \ge 0
 $$
 
+Equilibrium point $x = 0$ 근방에서 충분히 가까운 초기 조건에서 출발한 상태 변수 $x(t)$는 항상 원점의 열린 근방(open ball)에 포함된다.
 
+## 2. Lyapunov Function
 
-## 3. Lyapunov의 직접법 (Direct Method)
+스칼라 함수 $V(x) \in C^{1}$가 Lyapunov 함수인 것은 아래와 같은 조건을 만족하는 경우를 의미한다.
 
-Lyapunov의 직접법을 통해 평형점 $x = 0$의 안정성을 다음과 같이 판별할 수 있다.
-
-- 안정성 (Stability):  
-  만약 $V(x)$가 양의 정함수이고, $\dot{V}(x) \leq 0$라면, 평형점 $x = 0$은 안정적이다.
-
-- 점근적 안정성 (Asymptotic Stability):  
-  만약 $V(x)$가 양의 정함수이고, $\dot{V}(x) < 0$ for $x \neq 0$라면, 평형점 $x = 0$은 점근적으로 안정적이다. 즉,
-  $$\lim_{t\to\infty} x(t) = 0.$$
-
-- 지수 안정성 (Exponential Stability):  
-  추가적으로, $V(x)$가 아래와 같은 경계 조건을 만족하면, 평형점은 지수 안정적이다.
-  $$
-  c_1 \|x\|^2 \leq V(x) \leq c_2 \|x\|^2, \quad \dot{V}(x) \leq -c_3 \|x\|^2,
-  $$
-  for some constants $c_1, c_2, c_3 > 0$. 이 경우,
-  $$
-  \|x(t)\| \leq \sqrt{\frac{c_2}{c_1}}\, \|x(0)\|\, e^{-\frac{c_3}{2c_2} t}.
-  $$
+1. Positive Definiteness :  
+   $$V(0) = 0 \quad \text{and} \quad V(x) > 0 \quad \forall x \neq 0$$
+2. Negative Semi-Definiteness :  
+   $$\dot{V}(x) = \frac{\partial V}{\partial x} f(x) \leq 0$$
 
 
 
-## 4. Quadratic Lyapunov Functions for Linear Systems
+## 3. 안정성 판별
 
-선형 시스템
 $$
-\dot{x}(t) = Ax(t)
+\boxed{\exist \text{ Lyapunov Function } V(x)} \Rightarrow \boxed{\text{Lyapunov Stability}}
 $$
-에 대해 일반적인 Lyapunov 함수는 quadratic 형태로 주어진다.
+
+**(증명)** 연속적으로 미분 가능한 스칼라 함수 $V(x)$가 존재해서, 위 조건을 만족한다고 가정하자. 그러면, $V(x)$의 연속성과 Positive Definiteness에 의해, 원점 근처에서 함수 $V(x)$는 유계(bounded)이기 때문에 임의의 $\epsilon > 0$에 대해 $||x|| < \epsilon $를 만족하는 모든 $x$에 대해
+
 $$
-V(x) = x^T P x,
+V(x) \leq \alpha 
 $$
-여기서 $P = P^T > 0$는 양의 정부호 행렬이다. 이때, $V(x)$의 시간 미분은
+
+를 만족하는 양수 $\alpha > 0$가 존재한다. 그러면, 위 부등식을 만족하는 상태 변수들의 집합을 $D_{a}$라고 하자.
+
 $$
-\dot{V}(x) = \frac{\partial V}{\partial x}\dot{x} = x^T (A^T P + P A) x.
+D_\alpha := \{x \in R^n \mid V(x) \leq \alpha \}
 $$
-따라서, 만약 $A^T P + P A < 0$ (음의 정부호)인 $P > 0$가 존재하면, 평형점 $x = 0$은 점근적으로 안정적이다. 이 조건은 Lyapunov 방정식이나 LMI(Linear Matrix Inequality)를 통해 확인할 수 있으며, 선형 시스템의 Hurwitz 조건과 동치이다.
+
+그러면, 집합 $D_{a}$은 Compact하다. 또, 함수 $V(x)$는 시간 변수 $t$에 대해 비증가 함수이기 때문에 아래 부등식을 만족한다.
+
+$$
+V(x(t)) \leq V(x(0))
+$$
+  
+
+이제 초기 조건 $x(0)$에 대해 $V(x(0)) \leq \alpha$를 만족하도록 $\delta > 0$를 작게 선택할 수 있다.
+
+$$
+\|x(0)\| < \delta \quad \Rightarrow \quad x(0) \in D_\alpha \quad \Rightarrow \quad V(x(0)) \leq \alpha
+$$
+
+그런데, $\dot{V}(x) \leq 0$이므로 $V(x(t))$는 비증가 함수이며, 아래를 만족한다.
+
+$$
+V(x(t)) \leq V(x(0)) < \alpha, \quad \forall t \geq 0
+$$
+
+따라서, $x(t) \in D_\alpha$를 만족하는 상태 변수 $x(t)$는 $||x(t)|| < \epsilon $을 성립하기 때문에
 
 
-예를 들어, 주어진 선형 시스템에 대해 임의의 양의 정부호 행렬 $Q > 0$를 선택하고, Lyapunov 방정식
 $$
-A^T P + P A = -Q
+\forall \varepsilon > 0,\ \exists \delta > 0:\ \|x(0)\| < \delta \Rightarrow \|x(t)\| < \varepsilon,\ \forall t \geq 0
 $$
-의 해 $P$를 구할 수 있다면, 이 시스템은 점근적으로 안정적이다. 이와 같이 Lyapunov 함수는 시스템의 안정성 분석뿐만 아니라, 제어 설계 및 최적 제어 문제에서도 중요한 역할을 수행한다.
 
-Lyapunov 안정성 이론은 선형 및 비선형 시스템 모두에 적용 가능하며, 시스템이 외란이나 불확실성에 직면했을 때도 안정성을 보장할 수 있는 견고한 분석 도구로 널리 활용된다.
+를 만족하며, 이는 시스템이 Lyapunov 안정성의 정의와 일치한다.

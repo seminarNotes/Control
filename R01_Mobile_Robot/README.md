@@ -344,36 +344,44 @@ $$
 이러한 극좌표 오차 방정식은 제어기의 안정성을 Lyapunov 함수 기반으로 설명할 수 있기 때문에, 안정성 기반의 제어기를 설계할 때, 아주 유용하다. 이를 조금만 설명하면, 먼저 다음과 같은 Lyapunov 함수를 가정한다.
 
 $$
-V(\rho, \alpha, \beta) = \rho^{2} + \alpha^{2} + \beta^{2}
+V(\rho(t), \alpha(t), \beta(t)) = \frac{1}{2} \rho^{2}(t) + \frac{1}{2} \alpha^{2}(t) + \frac{1}{2} \beta^{2}(t)
 $$
 
 위 함수는 positive definite이기 때문에, $\dot{V} \leq 0$을 만족하면서, 동시에 오차 상태 변수 $(\rho, \alpha, \beta)$가 모두 $(0, 0, 0)$으로 수렴하도록 $v(t)$와 $w(t)$를 설계해보자. 먼저 Lyapunov 함수를 분석하기 위해 시간에 대해 미분을 하면,
 
 $$
 \begin{aligned}
-\dot{V} & = \frac{1}{2}\dot{\rho}\rho +  \frac{1}{2}\dot{\alpha}\alpha + \frac{1}{2}\dot{\beta}\beta\\
-\approx -k_\rho \rho^2 - k_\alpha \alpha^2 - k_\beta \alpha \beta + k_\rho \alpha^2 - \beta \omega_d
+\dot{V} & = \dot{\rho}(t)\rho(t) +  \dot{\alpha}(t)\alpha(t) + \dot{\beta}(t)\beta(t) \\
+& = - \rho(t)v(t) \cos\alpha(t) +  \alpha(t) (w_{d}(t) - w(t) - \frac{v(t)}{\rho(t)} \sin\alpha(t)) \\
+& \quad - \beta(t) w_{d}(t)  \\
+\approx & -k_{\rho} \rho^2(t) - k_{\alpha} \alpha^2(t) - k_{\beta} \alpha(t) \beta(t) + k_{\rho} \alpha^2(t) - \beta(t) w_d(t) \\
+= &  -k_{\rho} \rho^2(t) + (k_{\rho} - k_{\alpha})\alpha^2(t) - k_{\beta} \alpha(t) \beta(t) - \beta(t) w_d(t)
 \end{aligned}
 $$
 
-이를 정리하면:
-\[
-\dot{V} \approx -k_\rho \rho^2 + (k_\rho - k_\alpha)\alpha^2 - k_\beta \alpha \beta - \beta \omega_d
-\]
+따라서,
 
-이제 \(\alpha^2\)와 \(\alpha \beta\) 항을 완전제곱식 형태로 묶어주면:
-\[
--k_\alpha \alpha^2 - k_\beta \alpha \beta 
-= -k_\alpha \left( \alpha^2 + \frac{k_\beta}{k_\alpha} \alpha \beta \right)
-= -k_\alpha \left[ \left( \alpha + \frac{k_\beta}{2k_\alpha} \beta \right)^2 - \frac{k_\beta^2}{4k_\alpha^2} \beta^2 \right]
-\]
+$$
+\dot{V} \approx -k_{\rho}\rho^2(t) + (k_{\rho} - k_{\alpha})\alpha^2(t) - k_{\beta} \alpha(t) \beta(t) - \beta(t) w_d(t)
+$$
 
-따라서 전체적으로 다음과 같이 정리됩니다:
-\[
-\dot{V} \approx -k_\rho \rho^2 
-- k_\alpha \left( \alpha + \frac{k_\beta}{2k_\alpha} \beta \right)^2
-+ \left( \frac{k_\beta^2}{4k_\alpha} \beta^2 - \beta \omega_d \right)
-\]
+이제 $\alpha^2(t)$와 $\alpha(t) \beta(t)$ 항을 완전제곱식 형태로 정리하면 다음과 같다.
+
+$$
+\begin{aligned}
+-k_{\alpha} \alpha^2(t) - k_{\beta} \alpha(t) \beta (t)
+= & -k_{\alpha} \left( \alpha^2(t) + \frac{k_{\beta}}{k_{\alpha}} \alpha(t) \beta(t) \right) \\
+= & -k_{\alpha} \left[ \left( \alpha(t) + \frac{k_{\beta}}{2k_{\alpha}} \beta(t) \right)^2 - \frac{k_{\beta}^2}{4k_{\alpha}^2} \beta^2(t) \right]
+\end{aligned}
+$$
+
+따라서, Lyapunov Function의 미분은 아래와 같이 정리된다.
+
+$$
+\dot{V} \approx -k_{\rho} \rho^2(t) 
+\- k_{\alpha} \left( \alpha(t) + \frac{k_{\beta}}{2k_{\alpha}} \beta(t) \right)^2
++ \left( \frac{k_{\beta}^2}{4k_{\alpha}} \beta^2(t) - \beta(t) w_d(t) \right)
+$$
 
 ## 3. 예제
 
