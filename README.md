@@ -20,11 +20,11 @@
 
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
-|1|[Mobile Robot](https://github.com/seminarNotes/studyNotes/tree/main/M01_Function_Optimization)|모바일 로봇의 운동학|작성중|
+|1|[Mobile Robot](https://github.com/seminarNotes/studyNotes/tree/main/R01_Mobile_Robot)|모바일 로봇의 운동학|작성중|
 
 ## 3. Mathematics
 
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
-|1|[Function Optimization](https://github.com/seminarNotes/studyNotes/tree/main/R01_Mobile_Robot)|함수 최적화 기법|-|작성중|
+|1|[Function Optimization](https://github.com/seminarNotes/studyNotes/tree/main/M01_Function_Optimization)|함수 최적화 기법|-|작성중|
 
