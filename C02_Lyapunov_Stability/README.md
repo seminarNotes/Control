@@ -52,7 +52,7 @@ Equilibrium point $x = 0$ 근방에서 충분히 가까운 초기 조건에서 �
 ## 3. 안정성 판별
 
 $$
-\boxed{\exist \text{ Lyapunov Function } V(x)} \Rightarrow \boxed{\text{Lyapunov Stability}}
+\boxed{\text{Existence of Lyapunov Function } V(x)} \Rightarrow \boxed{\text{Lyapunov Stability}}
 $$
 
 **(증명)** 연속적으로 미분 가능한 스칼라 함수 $V(x)$가 존재해서, 위 조건을 만족한다고 가정하자. 그러면, $V(x)$의 연속성과 Positive Definiteness에 의해, 원점 근처에서 함수 $V(x)$는 유계(bounded)이기 때문에 임의의 $\epsilon > 0$에 대해 $||x|| < \epsilon $를 만족하는 모든 $x$에 대해
