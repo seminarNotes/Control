@@ -3,7 +3,7 @@
 ## 1. Control Theory
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
-|1|Stability|시스템안정성분석|-|작성중|
+|1|[Stability](https://github.com/seminarNotes/studyNotes/tree/main/C01_Stability)|시스템안정성분석|-|완료|
 |2|Lyapunov stability|시스템안정성분석|-|작성중|
 |3|Controllability|상태도달가능성|-|작성중|
 |4|Feedback Control|피드백기반안정화제어|-|작성중|
