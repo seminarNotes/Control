@@ -24,8 +24,7 @@
 
 ## 3. Mathematics
 
-![gradient_descent](https://github.com/seminarNotes/studyNotes/raw/main/M01_Fucnction_Optimization/gradient_descent.gif)
-
+![gradient_descent](https://github.com/seminarNotes/studyNotes/blob/main/M01_Fucnction_Optimization/gradient_descent.gif)
 
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
