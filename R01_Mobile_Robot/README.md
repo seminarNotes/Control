@@ -344,10 +344,10 @@ $$
 이러한 극좌표 오차 방정식은 제어기의 안정성을 Lyapunov 함수 기반으로 설명할 수 있기 때문에, 안정성 기반의 제어기를 설계할 때, 아주 유용하다. 이를 조금만 설명하면, 먼저 다음과 같은 Lyapunov 함수를 가정한다.
 
 $$
-V(\rho, \alpha, \beta) = \rho^{2} + \alpha^{2} +\beta^{2}
+V(\rho, \alpha, \beta) = \rho^{2} + \alpha^{2} + \beta^{2}
 $$
 
-위 함수는 positive definite이기 때문에, $\dot{V} \leq 0$이 되도록 하는 제어기를 설계해보자. 먼저, 제어 목표는 3가지의 오차 $(\rho, \alpha, \beta)$가 모두 $(0, 0, 0)$으로 수렴하는 것이다. Lyapunov 함수의 시간에 대한 미분은 아래와 같다.
+위 함수는 positive definite이기 때문에, $\dot{V} \leq 0$을 만족하면서, 동시에 오차 상태 변수 $(\rho, \alpha, \beta)$가 모두 $(0, 0, 0)$으로 수렴하도록 $v(t)$와 $w(t)$를 설계해보자. 먼저 Lyapunov 함수를 분석하기 위해 시간에 대해 미분을 하면,
 
 $$
 \begin{aligned}
