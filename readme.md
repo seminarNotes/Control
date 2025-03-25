@@ -1,14 +1,29 @@
-아래 내용은 제어 이론을 공부하며 기록을 해둔 것이다.
+아래는 공부를 기록한 글이다.
 
-## 목차
-
-|No.|Title|Attachment|Keywords|Remarks|
+## 1. Control Theory
+|No.|Title|Description|Code|Status|
 |--|--|--|--|--|
-|1|[Stability](https://github.com/seminarNotes/Control/blob/main/Stability.md)|-|점근적 수렴성, Hurwitz, Schur, LMI|-|
-|2|[Controllability](https://github.com/seminarNotes/Control/blob/main/Controllability.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/Controllability/simulation_controllability_gramian.m)|reachable, controllable, grammian, energy ellipsoid|-|
-|3|Observerability|-|-|작성예정|
-|4|[Feedback Control](https://github.com/seminarNotes/Control/blob/main/Feedback_Control.md)|-|피드백 제어|-|
-|5|[Luenberger Observer](https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/Luenberger_Observer/simulation_luenberger_observer.m)|observeratility, Luenberger observer|-|
-|6|[Linear Quadratic Regulator](https://github.com/seminarNotes/Control/blob/main/Linear_Quadratic_Regulator.md)|-|LQR, HJB, Hamiltonian, Riccati equation|-|
-|7|[MPC Quadratic Programming](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming.md)|[Matlab File](https://github.com/seminarNotes/Control/blob/main/MPC_Quadratic_Programming/simulation_mpc_quadratic_programming.m)|모델 예측 제어, MPC, Quadratic Programming|-|
+|1|Stability|시스템안정성분석|-|작성중|
+|2|Controllability|상태도달가능성|-|작성중|
+|3|Feedback Control|피드백기반안정화제어|-|작성중|
+|4|Observability|상태관측가능성|-|작성중|
+|5|Luenberger Observer|선형상태추정기|-|작성중|
+|6|Extended State Observer|비선형상태추정기|-|작성중|
+|7|Kalman Filter|확률기반상태추정|-|작성중|
+|8|Linear Quadratic Regulator|최적상태피드백제어|-|작성중|
+|9|Linear Model Predictive Control|선형모델예측제어|-|작성중|
+|10|Explicit Model Predictive Control|MPC계산기법|-|작성중|
+|11|Path Tracking Control|경로추종제어기설계|-|작성중|
+
+## 2. Robotics
+
+|No.|Title|Description|Code|Status|
+|--|--|--|--|--|
+|1|Mobile Robot|모바일 로봇의 운동학|작성중|
+
+## 3. Mathematics
+
+|No.|Title|Description|Code|Status|
+|--|--|--|--|--|
+|1|Function Optimization|함수 최적화 기법|-|작성중|
 
