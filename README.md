@@ -24,6 +24,9 @@
 
 ## 3. Mathematics
 
+![gradient_descent](https://github.com/seminarNotes/studyNotes/raw/main/M01_Fucnction_Optimization/gradient_descent.gif)
+
+
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
 |1|[Function Optimization](https://github.com/seminarNotes/studyNotes/tree/main/M01_Function_Optimization)|함수 최적화 기법|-|작성중|
