@@ -42,10 +42,9 @@ Equilibrium point $x = 0$ 근방에서 충분히 가까운 초기 조건에서 �
 
 스칼라 함수 $V(x) \in C^{1}$가 Lyapunov 함수인 것은 아래와 같은 조건을 만족하는 경우를 의미한다.
 
-1. Positive Definiteness :  
-   $$V(0) = 0 \quad \text{and} \quad V(x) > 0 \quad \forall x \neq 0$$
-2. Negative Semi-Definiteness :  
-   $$\dot{V}(x) = \frac{\partial V}{\partial x} f(x) \leq 0$$
+1. Positive Definiteness :  $V(0) = 0 \quad \text{and} \quad V(x) > 0 \quad \forall x \neq 0$
+2. Negative Semi-Definiteness :  $\dot{V}(x) = \frac{\partial V}{\partial x} f(x) \leq 0$
+   
 
 
 
