@@ -22,7 +22,7 @@
 |--|--|--|--|--|
 |1|[Mobile Robot](https://github.com/seminarNotes/studyNotes/tree/main/R01_Mobile_Robot)|모바일 로봇의 운동학|작성중|
 
-<img src="https://github.com/seminarNotes/studyNotes/blob/main/M01_Fucnction_Optimization/gradient_descent.gif" alt="gradient descent" width="600">
+<img src="https://github.com/seminarNotes/studyNotes/blob/main/R01_Mobile_Robot/trajectory_ani_2.gif" alt="mobile robot" width="600">
 
 
 ## 3. Mathematics
