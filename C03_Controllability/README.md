@@ -162,7 +162,7 @@ x_desired - x_reached =
 
 <img src="https://github.com/seminarNotes/studyNotes/blob/main/C03_Controllability/order2_input.jpg" alt="Controllability Order3 State" width="500">
 
-<img src="https://github.com/seminarNotes/studyNotes/blob/main/C03_Controllability/order3_input.jpg.jpg" alt="Controllability Order3 Input" width="500">
+<img src="https://github.com/seminarNotes/studyNotes/blob/main/C03_Controllability/order3_input.jpg" alt="Controllability Order3 Input" width="500">
 
 
 ## 5. Minimum Energy Ellipsoid
