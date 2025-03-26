@@ -4,7 +4,7 @@
 |No.|Title|Description|Code|Status|
 |--|--|--|--|--|
 |1|[Stability](https://github.com/seminarNotes/studyNotes/tree/main/C01_Stability)|시스템안정성분석|-|완료|
-|2|[Lyapunov stability](https://github.com/seminarNotes/studyNotes/tree/main/C02_Lyapunov_Stability)|시스템안정성분석|-|작성중|
+|2|[Lyapunov stability](https://github.com/seminarNotes/studyNotes/tree/main/C02_Lyapunov_Stability)|시스템안정성분석|-|완료|
 |3|[Controllability](https://github.com/seminarNotes/studyNotes/tree/main/C03_Controllability)|상태도달가능성|-|완료|
 |4|[Feedback Control](https://github.com/seminarNotes/studyNotes/tree/main/C04_Feedback_Control)|피드백기반안정화제어|-|작성중|
 |5|[Observability](https://github.com/seminarNotes/studyNotes/tree/main/C05_Observerability)|상태관측가능성|-|작성중|
